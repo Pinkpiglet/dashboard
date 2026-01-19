@@ -16,6 +16,7 @@ import TeamIcon from "@/assets/icons/TeamIcon";
 import SidebarItem from "@/components/SidebarItem";
 import { useAnnouncement } from "@/contexts/AnnouncementProvider";
 import { useApplicationContext } from "@/contexts/ApplicationProvider";
+import { useLanguage } from "@/contexts/LanguageProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { headerHeight } from "@/layouts/Header";
 import { NetworkNavigation } from "@/modules/networks/misc/NetworkNavigation";
@@ -32,6 +33,7 @@ export default function Navigation({
   const { bannerHeight } = useAnnouncement();
   const { isNavigationCollapsed } = useApplicationContext();
   const { permission, isRestricted } = usePermissions();
+  const { t } = useLanguage();
 
   return (
     <div
@@ -74,9 +76,9 @@ export default function Navigation({
                   icon={<ControlCenterIcon size={16} />}
                   label={
                     <div className={"flex items-center gap-2"}>
-                      Control Center
+                      {t("nav.control_center", "Control Center")}
                       <SmallBadge
-                        text={"Beta"}
+                        text={t("nav.beta", "Beta")}
                         variant={"sky"}
                         className={"text-[8px] leading-none py-[3px] px-[5px]"}
                         textClassName={"top-0"}
@@ -89,38 +91,38 @@ export default function Navigation({
 
                 <SidebarItem
                   icon={<PeerIcon />}
-                  label="Peers"
+                  label={t("nav.peers", "Peers")}
                   href={"/peers"}
                   visible={!isRestricted}
                 />
 
                 <SidebarItem
                   icon={<SetupKeysIcon />}
-                  label="Setup Keys"
+                  label={t("nav.setup_keys", "Setup Keys")}
                   href={"/setup-keys"}
                   visible={permission.setup_keys.read}
                 />
                 <SidebarItem
                   icon={<AccessControlIcon />}
-                  label="Access Control"
+                  label={t("nav.access_control", "Access Control")}
                   collapsible
                   visible={permission.policies.read}
                 >
                   <SidebarItem
-                    label="Policies"
+                    label={t("nav.policies", "Policies")}
                     href={"/access-control"}
                     isChild
                     exactPathMatch={true}
                     visible={permission.policies.read}
                   />
                   <SidebarItem
-                    label="Groups"
+                    label={t("nav.groups", "Groups")}
                     isChild
                     href={"/groups"}
                     visible={permission.policies.read}
                   />
                   <SidebarItem
-                    label="Posture Checks"
+                    label={t("nav.posture_checks", "Posture Checks")}
                     isChild
                     href={"/posture-checks"}
                     exactPathMatch={true}
@@ -132,25 +134,25 @@ export default function Navigation({
 
                 <SidebarItem
                   icon={<DNSIcon />}
-                  label="DNS"
+                  label={t("nav.dns", "DNS")}
                   collapsible
                   exactPathMatch={true}
                   visible={permission.dns.read || permission.nameservers.read}
                 >
                   <SidebarItem
-                    label="Nameservers"
+                    label={t("nav.nameservers", "Nameservers")}
                     isChild
                     href={"/dns/nameservers"}
                     visible={permission.nameservers.read}
                   />
                   <SidebarItem
-                    label="Zones"
+                    label={t("nav.zones", "Zones")}
                     isChild
                     href={"/dns/zones"}
                     visible={permission?.dns?.read}
                   />
                   <SidebarItem
-                    label="DNS Settings"
+                    label={t("nav.dns_settings", "DNS Settings")}
                     isChild
                     href={"/dns/settings"}
                     visible={permission.dns.read}
@@ -158,18 +160,18 @@ export default function Navigation({
                 </SidebarItem>
                 <SidebarItem
                   icon={<TeamIcon />}
-                  label="Team"
+                  label={t("nav.team", "Team")}
                   collapsible
                   visible={permission.users.read}
                 >
                   <SidebarItem
-                    label="Users"
+                    label={t("nav.users", "Users")}
                     isChild
                     href={"/team/users"}
                     visible={permission.users.read}
                   />
                   <SidebarItem
-                    label="Service Users"
+                    label={t("nav.service_users", "Service Users")}
                     isChild
                     href={"/team/service-users"}
                     visible={permission.users.read}
@@ -177,7 +179,7 @@ export default function Navigation({
                 </SidebarItem>
                 <SidebarItem
                   icon={<ActivityIcon />}
-                  label="Activity"
+                  label={t("nav.activity", "Activity")}
                   href={"/events/audit"}
                   exactPathMatch={true}
                   visible={permission.events.read}
@@ -187,7 +189,7 @@ export default function Navigation({
               <SidebarItemGroup>
                 <SidebarItem
                   icon={<SettingsIcon />}
-                  label="Settings"
+                  label={t("nav.settings", "Settings")}
                   href={"/settings"}
                   exactPathMatch={true}
                   visible={permission.settings.read}
@@ -196,7 +198,7 @@ export default function Navigation({
                   icon={<DocsIcon />}
                   href={"https://docs.netbird.io/"}
                   target={"_blank"}
-                  label="Documentation"
+                  label={t("nav.documentation", "Documentation")}
                   visible={true}
                 />
               </SidebarItemGroup>

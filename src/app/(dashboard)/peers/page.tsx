@@ -9,6 +9,7 @@ import { ExternalLinkIcon } from "lucide-react";
 import React, { lazy, Suspense } from "react";
 import PeerIcon from "@/assets/icons/PeerIcon";
 import PeersProvider, { usePeers } from "@/contexts/PeersProvider";
+import { useLanguage } from "@/contexts/LanguageProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { useUsers } from "@/contexts/UsersProvider";
 import PageContainer from "@/layouts/PageContainer";
@@ -35,6 +36,7 @@ export default function Peers() {
 function PeersView() {
   const { peers, isLoading } = usePeers();
   const { users } = useUsers();
+  const { t } = useLanguage();
   const { ref: headingRef, portalTarget } =
     usePortalElement<HTMLHeadingElement>();
 
@@ -52,25 +54,27 @@ function PeersView() {
         <Breadcrumbs>
           <Breadcrumbs.Item
             href={"/peers"}
-            label={"Peers"}
+            label={t("nav.peers", "Peers")}
             icon={<PeerIcon size={13} />}
           />
         </Breadcrumbs>
-        <h1 ref={headingRef}>Peers</h1>
+        <h1 ref={headingRef}>{t("nav.peers", "Peers")}</h1>
         <Paragraph>
-          A list of all machines and devices connected to your private network.
-          Use this view to manage peers.
+          {t(
+            "peers.page_description",
+            "A list of all machines and devices connected to your private network. Use this view to manage peers.",
+          )}
         </Paragraph>
         <Paragraph>
-          Learn more about{" "}
+          {t("common.learn_more", "Learn more about")}{" "}
           <InlineLink
             href={"https://docs.netbird.io/how-to/add-machines-to-your-network"}
             target={"_blank"}
           >
-            Peers
+            {t("nav.peers", "Peers")}
             <ExternalLinkIcon size={12} />
           </InlineLink>
-          in our documentation.
+          {t("common.in_documentation", "in our documentation.")}
         </Paragraph>
       </div>
       <Suspense fallback={<SkeletonTable />}>
@@ -85,19 +89,25 @@ function PeersView() {
 }
 
 function PeersBlockedView() {
+  const { t } = useLanguage();
   return (
     <div className={"flex items-center justify-center flex-col"}>
       <div className={"p-default py-6 max-w-3xl text-center"}>
-        <h1>Add new device to your network</h1>
+        <h1>{t("peers.add_device_title", "Add new device to your network")}</h1>
         <Paragraph className={"inline"}>
-          To get started, install NetBird and log in using your email account.
-          After that you should be connected. If you have further questions
-          check out our{" "}
+          {t(
+            "peers.add_device_description",
+            "To get started, install NetBird and log in using your email account. After that you should be connected.",
+          )}{" "}
+          {t(
+            "peers.check_guide",
+            "If you have further questions check out our",
+          )}{" "}
           <InlineLink
             href={"https://docs.netbird.io/how-to/getting-started#installation"}
             target={"_blank"}
           >
-            Installation Guide
+            {t("peers.installation_guide", "Installation Guide")}
             <ExternalLinkIcon size={12} />
           </InlineLink>
         </Paragraph>

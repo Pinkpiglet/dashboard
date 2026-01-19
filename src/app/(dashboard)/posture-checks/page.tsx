@@ -11,6 +11,7 @@ import { ExternalLinkIcon, ShieldCheck } from "lucide-react";
 import React, { lazy, Suspense } from "react";
 import AccessControlIcon from "@/assets/icons/AccessControlIcon";
 import GroupsProvider from "@/contexts/GroupsProvider";
+import { useLanguage } from "@/contexts/LanguageProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import PoliciesProvider from "@/contexts/PoliciesProvider";
 import { PostureCheck } from "@/interfaces/PostureCheck";
@@ -21,6 +22,7 @@ const PostureCheckTable = lazy(
 );
 export default function PostureChecksPage() {
   const { permission } = usePermissions();
+  const { t } = useLanguage();
   const { data: postureChecks, isLoading } =
     useFetchApi<PostureCheck[]>("/posture-checks");
 
@@ -34,30 +36,35 @@ export default function PostureChecksPage() {
           <Breadcrumbs>
             <Breadcrumbs.Item
               href={"/access-control"}
-              label={"Access Control"}
+              label={t("nav.access_control", "Access Control")}
               icon={<AccessControlIcon size={14} />}
             />
             <Breadcrumbs.Item
               href={"/posture-checks"}
-              label={"Posture Checks"}
+              label={t("nav.posture_checks", "Posture Checks")}
               active
               icon={<ShieldCheck size={15} />}
             />
           </Breadcrumbs>
-          <h1 ref={headingRef}>Posture Checks</h1>
+          <h1 ref={headingRef}>
+            {t("posture_checks.title", "Posture Checks")}
+          </h1>
           <Paragraph>
-            Use posture checks to further restrict access in your network.
+            {t(
+              "posture_checks.description",
+              "Use posture checks to further restrict access in your network.",
+            )}
           </Paragraph>
           <Paragraph>
-            Learn more about
+            {t("posture_checks.learn_more", "Learn more about")}
             <InlineLink
               href={"https://docs.netbird.io/how-to/manage-posture-checks"}
               target={"_blank"}
             >
-              Posture Checks
+              {t("posture_checks.link_text", "Posture Checks")}
               <ExternalLinkIcon size={12} />
             </InlineLink>
-            in our documentation.
+            {t("common.in_documentation", "in our documentation.")}
           </Paragraph>
         </div>
 

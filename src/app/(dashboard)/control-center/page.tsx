@@ -39,6 +39,7 @@ import PeersProvider from "@/contexts/PeersProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import PoliciesProvider from "@/contexts/PoliciesProvider";
 import { useLoggedInUser } from "@/contexts/UsersProvider";
+import { useLanguage } from "@/contexts/LanguageProvider";
 import { Group } from "@/interfaces/Group";
 import { Network, NetworkResource } from "@/interfaces/Network";
 import { Peer } from "@/interfaces/Peer";
@@ -80,6 +81,7 @@ function ControlCenterView() {
   const [layoutInitialized, setLayoutInitialized] = useState(false);
   const [forceLayoutChange, setForceLayoutChange] = useState(false);
   const { loggedInUser } = useLoggedInUser();
+  const { t } = useLanguage();
 
   const queryParams = useSearchParams();
   const queryTab = queryParams.get("tab");
@@ -141,7 +143,7 @@ function ControlCenterView() {
     );
     allNetworks.unshift({
       value: "",
-      label: "All Networks",
+      label: t("control_center.all_networks", "All Networks"),
       icon: () => <LayoutGridIcon size={14} />,
     } as SelectOption);
     return allNetworks;
@@ -1466,7 +1468,10 @@ function ControlCenterView() {
         currentPeer: peerId,
         onPeerChange: handlePeerChange,
         userId: userId,
-        placeholder: "Search peers of user...",
+        placeholder: t(
+          "control_center.search_peers",
+          "Search peers of user...",
+        ),
       },
     };
     setNodes([selectPeerNode]);

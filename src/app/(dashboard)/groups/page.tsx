@@ -8,6 +8,7 @@ import { ExternalLinkIcon, FolderGit2Icon } from "lucide-react";
 import React, { lazy, Suspense } from "react";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import InlineLink from "@/components/InlineLink";
+import { useLanguage } from "@/contexts/LanguageProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import PageContainer from "@/layouts/PageContainer";
 
@@ -15,6 +16,7 @@ const GroupsTable = lazy(() => import("@/modules/groups/table/GroupsTable"));
 
 export default function GroupsPage() {
   const { permission } = usePermissions();
+  const { t } = useLanguage();
   const { ref: headingRef, portalTarget } =
     usePortalElement<HTMLHeadingElement>();
 
@@ -24,26 +26,28 @@ export default function GroupsPage() {
         <Breadcrumbs>
           <Breadcrumbs.Item
             href={"/groups"}
-            label={"Groups"}
+            label={t("nav.groups", "Groups")}
             icon={<FolderGit2Icon size={14} />}
             active
           />
         </Breadcrumbs>
-        <h1 ref={headingRef}>Groups</h1>
+        <h1 ref={headingRef}>{t("nav.groups", "Groups")}</h1>
         <Paragraph>
-          Here is the overview of the groups of your organization. You can
-          delete the unused ones.
+          {t(
+            "groups.page_description",
+            "Here is the overview of the groups of your organization. You can delete the unused ones.",
+          )}
         </Paragraph>
         <Paragraph>
-          Learn more about{" "}
+          {t("common.learn_more", "Learn more about")}{" "}
           <InlineLink
             href={"https://docs.netbird.io/how-to/manage-network-access"}
             target={"_blank"}
           >
-            Groups
+            {t("nav.groups", "Groups")}
             <ExternalLinkIcon size={12} />
           </InlineLink>
-          in our documentation.
+          {t("common.in_documentation", "in our documentation.")}
         </Paragraph>
       </div>
       <RestrictedAccess hasAccess={permission.groups.read} page={"Groups"}>

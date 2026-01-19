@@ -9,6 +9,7 @@ import useFetchApi from "@utils/api";
 import { ExternalLinkIcon, LogsIcon } from "lucide-react";
 import React from "react";
 import ActivityIcon from "@/assets/icons/ActivityIcon";
+import { useLanguage } from "@/contexts/LanguageProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { ActivityEvent } from "@/interfaces/ActivityEvent";
 import PageContainer from "@/layouts/PageContainer";
@@ -16,6 +17,7 @@ import ActivityTable from "@/modules/activity/ActivityTable";
 
 export default function Activity() {
   const { permission } = usePermissions();
+  const { t } = useLanguage();
 
   const { data: events, isLoading } =
     useFetchApi<ActivityEvent[]>("/events/audit");
@@ -28,28 +30,33 @@ export default function Activity() {
       <div className={"p-default py-6"}>
         <Breadcrumbs>
           <Breadcrumbs.Item
-            label={"Activity"}
+            label={t("nav.activity", "Activity")}
             disabled={true}
             icon={<ActivityIcon size={13} />}
           />
           <Breadcrumbs.Item
             href={"/events/audit"}
-            label={"Audit Events"}
+            label={t("events.audit_events", "Audit Events")}
             icon={<LogsIcon size={18} />}
           />
         </Breadcrumbs>
-        <h1 ref={headingRef}>Audit Events</h1>
-        <Paragraph>Here you can see all the audit activity events.</Paragraph>
+        <h1 ref={headingRef}>{t("events.title", "Audit Events")}</h1>
         <Paragraph>
-          Learn more about{" "}
+          {t(
+            "events.description",
+            "Here you can see all the audit activity events.",
+          )}
+        </Paragraph>
+        <Paragraph>
+          {t("events.learn_more", "Learn more about ")}
           <InlineLink
             href={"https://docs.netbird.io/how-to/audit-events-logging"}
             target={"_blank"}
           >
-            Audit Events
+            {t("events.link_text", "Audit Events")}
             <ExternalLinkIcon size={12} />
           </InlineLink>
-          in our documentation.
+          {t("common.in_documentation", "in our documentation.")}
         </Paragraph>
       </div>
       <RestrictedAccess page={"Activity"} hasAccess={permission.events.read}>

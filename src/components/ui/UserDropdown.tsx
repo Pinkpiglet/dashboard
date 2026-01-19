@@ -16,6 +16,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { useApplicationContext } from "@/contexts/ApplicationProvider";
+import { useLanguage } from "@/contexts/LanguageProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { useLoggedInUser } from "@/contexts/UsersProvider";
 import useOSDetection from "@/hooks/useOperatingSystem";
@@ -25,6 +26,7 @@ export default function UserDropdown() {
   const { user } = useApplicationContext();
   const { loggedInUser, logout } = useLoggedInUser();
   const { isRestricted, permission } = usePermissions();
+  const { t } = useLanguage();
   const isMac = useOSDetection();
   const router = useRouter();
 
@@ -75,7 +77,7 @@ export default function UserDropdown() {
         <DropdownMenuItem onClick={logout}>
           <div className={"flex gap-3 items-center"}>
             <LogOutIcon size={14} />
-            Log out
+            {t("user.logout", "Logout")}
           </div>
           <DropdownMenuShortcut>{isMac ? "⇧⌘L" : "⇧ ⊞ L"}</DropdownMenuShortcut>
         </DropdownMenuItem>
@@ -85,11 +87,12 @@ export default function UserDropdown() {
 }
 
 const ProfileSettingsDropdownItem = ({ onClick }: { onClick: () => void }) => {
+  const { t } = useLanguage();
   return (
     <DropdownMenuItem onClick={onClick}>
       <div className={"flex gap-3 items-center"}>
         <User2 size={14} />
-        Profile Settings
+        {t("user.settings", "Settings")}
       </div>
     </DropdownMenuItem>
   );

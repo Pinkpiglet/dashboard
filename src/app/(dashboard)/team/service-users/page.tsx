@@ -11,6 +11,7 @@ import useFetchApi from "@utils/api";
 import { ExternalLinkIcon } from "lucide-react";
 import React, { lazy, Suspense } from "react";
 import TeamIcon from "@/assets/icons/TeamIcon";
+import { useLanguage } from "@/contexts/LanguageProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { User } from "@/interfaces/User";
 import PageContainer from "@/layouts/PageContainer";
@@ -21,6 +22,7 @@ const ServiceUsersTable = lazy(
 
 export default function ServiceUsers() {
   const { permission } = usePermissions();
+  const { t } = useLanguage();
   const { data: users, isLoading } = useFetchApi<User[]>(
     "/users?service_user=true",
   );
@@ -34,31 +36,33 @@ export default function ServiceUsers() {
         <Breadcrumbs>
           <Breadcrumbs.Item
             href={"/team"}
-            label={"Team"}
+            label={t("nav.team", "Team")}
             icon={<TeamIcon size={13} />}
           />
           <Breadcrumbs.Item
             href={"/team/service-users"}
-            label={"Service Users"}
+            label={t("nav.service_users", "Service Users")}
             active
             icon={<IconSettings2 size={17} />}
           />
         </Breadcrumbs>
-        <h1 ref={headingRef}>Service Users</h1>
+        <h1 ref={headingRef}>{t("nav.service_users", "Service Users")}</h1>
         <Paragraph>
-          Use service users to create API tokens and avoid losing automated
-          access.
+          {t(
+            "users.service_users_description",
+            "Use service users to create API tokens and avoid losing automated access.",
+          )}
         </Paragraph>
         <Paragraph>
-          Learn more about
+          {t("common.learn_more", "Learn more about")}
           <InlineLink
             href={"https://docs.netbird.io/how-to/access-netbird-public-api"}
             target={"_blank"}
           >
-            Service Users
+            {t("nav.service_users", "Service Users")}
             <ExternalLinkIcon size={12} />
           </InlineLink>
-          in our documentation.
+          {t("common.in_documentation", "in our documentation.")}
         </Paragraph>
       </div>
       <RestrictedAccess

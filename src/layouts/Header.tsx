@@ -4,12 +4,14 @@ import Button from "@components/Button";
 import { NetBirdLogo } from "@components/NetBirdLogo";
 import { AnnouncementBanner } from "@components/ui/AnnouncementBanner";
 import UserDropdown from "@components/ui/UserDropdown";
+import SimpleLanguageToggle from "@components/SimpleLanguageToggle";
 import { cn } from "@utils/helpers";
 import { MenuIcon, PanelLeftCloseIcon, PanelLeftOpenIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { useAnnouncement } from "@/contexts/AnnouncementProvider";
 import { useApplicationContext } from "@/contexts/ApplicationProvider";
+import { useLanguage } from "@/contexts/LanguageProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import HelpAndSupportButton from "@components/ui/HelpAndSupportButton";
 
@@ -20,6 +22,7 @@ export default function NavbarWithDropdown() {
   const { toggleMobileNav } = useApplicationContext();
   const { bannerHeight } = useAnnouncement();
   const { isRestricted } = usePermissions();
+  const { currentLanguage, setLanguage } = useLanguage();
 
   return (
     <>
@@ -64,6 +67,12 @@ export default function NavbarWithDropdown() {
           </div>
 
           <div className="flex md:order-2 gap-5 items-center">
+            <SimpleLanguageToggle
+              currentLanguage={currentLanguage}
+              onLanguageChange={setLanguage}
+              variant="compact"
+              size="sm"
+            />
             <HelpAndSupportButton />
             <UserDropdown />
           </div>

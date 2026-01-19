@@ -10,6 +10,7 @@ import useFetchApi from "@utils/api";
 import { ExternalLinkIcon } from "lucide-react";
 import React, { Suspense } from "react";
 import NetworkRoutesIcon from "@/assets/icons/NetworkRoutesIcon";
+import { useLanguage } from "@/contexts/LanguageProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { Network } from "@/interfaces/Network";
 import PageContainer from "@/layouts/PageContainer";
@@ -18,6 +19,7 @@ import NetworksTable from "@/modules/networks/table/NetworksTable";
 export default function Networks() {
   const { data: networks, isLoading } = useFetchApi<Network[]>("/networks");
   const { permission } = usePermissions();
+  const { t } = useLanguage();
   const { ref: headingRef, portalTarget } =
     usePortalElement<HTMLHeadingElement>();
 
@@ -27,25 +29,27 @@ export default function Networks() {
         <Breadcrumbs>
           <Breadcrumbs.Item
             href={"/networks"}
-            label={"Networks"}
+            label={t("nav.networks", "Networks")}
             icon={<NetworkRoutesIcon size={13} />}
           />
         </Breadcrumbs>
-        <h1 ref={headingRef}>Networks</h1>
+        <h1 ref={headingRef}>{t("nav.networks", "Networks")}</h1>
         <Paragraph>
-          Networks allow you to access internal resources in LANs and VPCs
-          without installing NetBird on every machine.
+          {t(
+            "network.page_description",
+            "Networks allow you to access internal resources in LANs and VPCs without installing NetBird on every machine.",
+          )}
         </Paragraph>
         <Paragraph>
-          Learn more about
+          {t("common.learn_more", "Learn more about")}
           <InlineLink
             href={"https://docs.netbird.io/how-to/networks"}
             target={"_blank"}
           >
-            Networks
+            {t("nav.networks", "Networks")}
             <ExternalLinkIcon size={12} />
           </InlineLink>
-          in our documentation.
+          {t("common.in_documentation", "in our documentation.")}
         </Paragraph>
       </div>
 

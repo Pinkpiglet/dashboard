@@ -19,6 +19,7 @@ import { useRouter } from "next/navigation";
 import * as React from "react";
 import { useMemo } from "react";
 import Skeleton from "react-loading-skeleton";
+import { useLanguage } from "@/contexts/LanguageProvider";
 import { Network, NetworkResource } from "@/interfaces/Network";
 
 type Props = {
@@ -74,6 +75,7 @@ export const GlobalSearchModal = ({ open, setOpen }: Props) => {
 
 const GlobalSearchModalContent = ({ open, setOpen }: Props) => {
   const router = useRouter();
+  const { t } = useLanguage();
 
   const { data: networks, isLoading: isNetworksLoading } = useFetchApi<
     Network[]
@@ -91,6 +93,27 @@ const GlobalSearchModalContent = ({ open, setOpen }: Props) => {
       (network) => network.resources?.some((res) => res === resourceId),
     );
   };
+
+  const searchTitle = t(
+    "search.modal_title",
+    "Search for Networks and Resources",
+  );
+  const searchSubtitle = t(
+    "search.modal_subtitle",
+    "Quickly find networks and associated resources.",
+  );
+  const searchHint = t(
+    "search.modal_hint",
+    "Start typing to search by name, description or address.",
+  );
+  const notFoundTitle = t(
+    "search.not_found_title",
+    "Could not find any results",
+  );
+  const notFoundDesc = t(
+    "search.not_found_desc",
+    "We couldn't find any results. Please try a different search term.",
+  );
 
   const items: AnySearchResult[] = useMemo(() => {
     if (isNetworksLoading || isResourcesLoading) return [];
@@ -160,12 +183,18 @@ const GlobalSearchModalContent = ({ open, setOpen }: Props) => {
             autoFocus={true}
           />
 
-          {search === "" && <BlankState />}
+          {search === "" && (
+            <BlankState
+              title={searchTitle}
+              subtitle={searchSubtitle}
+              hint={searchHint}
+            />
+          )}
 
           {isLoading && search !== "" && <LoadingState />}
 
           {!isSearching && search !== "" && filteredItems.length === 0 && (
-            <NotFoundState />
+            <NotFoundState title={notFoundTitle} description={notFoundDesc} />
           )}
 
           {!isSearching && search != "" && filteredItems.length !== 0 && (
@@ -283,7 +312,15 @@ const ResourceIcon = ({ type }: { type: NetworkResource["type"] }) => {
   }
 };
 
-const BlankState = () => {
+const BlankState = ({
+  title,
+  subtitle,
+  hint,
+}: {
+  title: string;
+  subtitle: string;
+  hint: string;
+}) => {
   return (
     <div className={"flex items-center justify-center pb-8"}>
       <div className={"text-center"}>
@@ -311,19 +348,23 @@ const BlankState = () => {
           </div>
         </div>
 
-        <div className={"text-nb-gray-100 mb-1"}>
-          Search for Networks and Resources
-        </div>
+        <div className={"text-nb-gray-100 mb-1"}>{title}</div>
         <div className={"text-sm text-nb-gray-350 font-light"}>
-          Quickly find networks and associated resources. <br />
-          Start typing to search by name, description or address.
+          {subtitle} <br />
+          {hint}
         </div>
       </div>
     </div>
   );
 };
 
-const NotFoundState = () => {
+const NotFoundState = ({
+  title,
+  description,
+}: {
+  title: string;
+  description: string;
+}) => {
   return (
     <div className={"flex items-center justify-center pb-8"}>
       <div className={"text-center"}>
@@ -337,11 +378,9 @@ const NotFoundState = () => {
           </div>
         </div>
 
-        <div className={"text-nb-gray-100 mb-1"}>
-          Could not find any results
-        </div>
+        <div className={"text-nb-gray-100 mb-1"}>{title}</div>
         <div className={"text-sm text-nb-gray-350 font-light max-w-xs"}>
-          {`We couldn't find any results. Please try a different search term.`}
+          {description}
         </div>
       </div>
     </div>

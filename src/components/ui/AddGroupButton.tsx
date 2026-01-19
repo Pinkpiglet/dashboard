@@ -15,6 +15,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useSWRConfig } from "swr";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { useLanguage } from "@/contexts/LanguageProvider";
 import { Group } from "@/interfaces/Group";
 import { useApiCall } from "@/utils/api";
 import ModalHeader from "../modal/ModalHeader";
@@ -29,12 +30,16 @@ export const AddGroupButton = () => {
   const [open, setOpen] = useState(false);
   const router = useRouter();
   const { permission } = usePermissions();
+  const { t } = useLanguage();
 
   const createGroup = () => {
     notify({
-      title: "Create Group",
-      description: `Group '${name}' successfully created`,
-      loadingMessage: "Creating group...",
+      title: t("groups.create_title", "Create Group"),
+      description: t(
+        "groups.created_success",
+        `Group '${name}' successfully created`,
+      ),
+      loadingMessage: t("groups.creating", "Creating group..."),
       promise: create({ name }).then((g) => {
         setOpen(false);
         setName("");
@@ -54,26 +59,32 @@ export const AddGroupButton = () => {
             className={"ml-auto h-[42px]"}
           >
             <PlusCircle size={16} />
-            Create Group
+            {t("groups.create_button", "Create Group")}
           </Button>
         </ModalTrigger>
         <ModalContent maxWidthClass={"max-w-xl"}>
           <ModalHeader
             icon={<FolderGit2Icon size={18} />}
-            title="Create Group"
-            description="Create a group to manage and organize access in your network"
+            title={t("groups.create_title", "Create Group")}
+            description={t(
+              "groups.create_description",
+              "Create a group to manage and organize access in your network",
+            )}
             color="netbird"
           />
           <Separator />
           <div className={"px-8 flex-col flex gap-6 py-6"}>
             <div>
-              <Label>Name</Label>
+              <Label>{t("groups.name_label", "Name")}</Label>
               <HelpText>
-                Set an easily identifiable name for your group
+                {t(
+                  "groups.name_help",
+                  "Set an easily identifiable name for your group",
+                )}
               </HelpText>
               <Input
                 tabIndex={0}
-                placeholder={"e.g., Developers"}
+                placeholder={t("groups.name_placeholder", "e.g., Developers")}
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               />
@@ -82,19 +93,21 @@ export const AddGroupButton = () => {
           <ModalFooter className={"items-center"}>
             <div className={"w-full"}>
               <Paragraph className={"text-sm mt-auto"}>
-                Learn more about
+                {t("groups.learn_more", "Learn more about")}
                 <InlineLink
                   href={"https://docs.netbird.io/how-to/manage-network-access"}
                   target={"_blank"}
                 >
-                  Groups
+                  {t("groups.link_text", "Groups")}
                   <ExternalLinkIcon size={12} />
                 </InlineLink>
               </Paragraph>
             </div>
             <div className={"flex gap-3 w-full justify-end"}>
               <ModalClose asChild={true}>
-                <Button variant={"secondary"}>Cancel</Button>
+                <Button variant={"secondary"}>
+                  {t("common.cancel", "Cancel")}
+                </Button>
               </ModalClose>
 
               <Button
@@ -104,7 +117,7 @@ export const AddGroupButton = () => {
                 onClick={createGroup}
               >
                 <PlusCircle size={16} />
-                Create Group
+                {t("groups.create_button", "Create Group")}
               </Button>
             </div>
           </ModalFooter>

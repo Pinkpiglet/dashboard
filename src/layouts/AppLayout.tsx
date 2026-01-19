@@ -19,6 +19,7 @@ import DialogProvider from "@/contexts/DialogProvider";
 import ErrorBoundaryProvider from "@/contexts/ErrorBoundary";
 import { GlobalThemeProvider } from "@/contexts/GlobalThemeProvider";
 import InstanceSetupProvider from "@/contexts/InstanceSetupProvider";
+import LanguageProvider from "@/contexts/LanguageProvider";
 import { NavigationEvents } from "@/contexts/NavigationEvents";
 
 const inter = localFont({
@@ -45,27 +46,29 @@ export default function AppLayout({
       <body className={cn(inter.className, "dark:bg-nb-gray bg-gray-50")}>
         <Suspense fallback={<FullScreenLoading />}>
           <AnalyticsProvider>
-            <DialogProvider>
-              <GlobalThemeProvider>
-                <ErrorBoundaryProvider>
-                  <InstanceSetupProvider>
-                    <OIDCProvider>
-                      <TooltipProvider delayDuration={0}>
-                        {children}
-                      </TooltipProvider>
-                    </OIDCProvider>
-                  </InstanceSetupProvider>
-                </ErrorBoundaryProvider>
-              </GlobalThemeProvider>
-            </DialogProvider>
-            <Toaster
-              position={"top-center"}
-              toastOptions={{
-                duration: 3000,
-              }}
-            />
-            <NavigationEvents />
-            <DisableDarkReader />
+            <LanguageProvider>
+              <DialogProvider>
+                <GlobalThemeProvider>
+                  <ErrorBoundaryProvider>
+                    <InstanceSetupProvider>
+                      <OIDCProvider>
+                        <TooltipProvider delayDuration={0}>
+                          {children}
+                        </TooltipProvider>
+                      </OIDCProvider>
+                    </InstanceSetupProvider>
+                  </ErrorBoundaryProvider>
+                </GlobalThemeProvider>
+              </DialogProvider>
+              <Toaster
+                position={"top-center"}
+                toastOptions={{
+                  duration: 3000,
+                }}
+              />
+              <NavigationEvents />
+              <DisableDarkReader />
+            </LanguageProvider>
           </AnalyticsProvider>
         </Suspense>
       </body>

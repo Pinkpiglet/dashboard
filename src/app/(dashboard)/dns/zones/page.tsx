@@ -10,6 +10,7 @@ import useFetchApi from "@utils/api";
 import { ExternalLinkIcon } from "lucide-react";
 import React, { lazy, Suspense } from "react";
 import DNSIcon from "@/assets/icons/DNSIcon";
+import { useLanguage } from "@/contexts/LanguageProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { DNS_ZONE_DOCS_LINK, DNSZone } from "@/interfaces/DNS";
 import PageContainer from "@/layouts/PageContainer";
@@ -22,6 +23,7 @@ const DNSZonesTable = lazy(
 
 export default function DNSZonePage() {
   const { permission } = usePermissions();
+  const { t } = useLanguage();
 
   const { data: zones, isLoading } = useFetchApi<DNSZone[]>("/dns/zones");
 
@@ -32,25 +34,31 @@ export default function DNSZonePage() {
     <PageContainer>
       <div className={"p-default py-6"}>
         <Breadcrumbs>
-          <Breadcrumbs.Item label={"DNS"} icon={<DNSIcon size={13} />} />
+          <Breadcrumbs.Item
+            label={t("nav.dns", "DNS")}
+            icon={<DNSIcon size={13} />}
+          />
           <Breadcrumbs.Item
             href={"/dns/zones"}
-            label={"Zones"}
+            label={t("nav.zones", "Zones")}
             active
             icon={<DNSZoneIcon size={16} />}
           />
         </Breadcrumbs>
-        <h1 ref={headingRef}>Zones</h1>
+        <h1 ref={headingRef}>{t("nav.zones", "Zones")}</h1>
         <Paragraph>
-          Manage DNS zones to control domain name resolution for your network.
+          {t(
+            "dns.zones_description",
+            "Manage DNS zones to control domain name resolution for your network.",
+          )}
         </Paragraph>
         <Paragraph>
-          Learn more about
+          {t("common.learn_more", "Learn more about")}
           <InlineLink href={DNS_ZONE_DOCS_LINK} target={"_blank"}>
-            DNS Zones
+            {t("dns.dns_zones", "DNS Zones")}
             <ExternalLinkIcon size={12} />
           </InlineLink>
-          in our documentation.
+          {t("common.in_documentation", "in our documentation.")}
         </Paragraph>
       </div>
 

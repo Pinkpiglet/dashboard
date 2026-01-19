@@ -10,6 +10,7 @@ import useFetchApi from "@utils/api";
 import { ExternalLinkIcon } from "lucide-react";
 import React, { lazy, Suspense } from "react";
 import DNSIcon from "@/assets/icons/DNSIcon";
+import { useLanguage } from "@/contexts/LanguageProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { NameserverGroup } from "@/interfaces/Nameserver";
 import PageContainer from "@/layouts/PageContainer";
@@ -20,6 +21,7 @@ const NameserverGroupTable = lazy(
 
 export default function NameServers() {
   const { permission } = usePermissions();
+  const { t } = useLanguage();
 
   const { data: nameserverGroups, isLoading } =
     useFetchApi<NameserverGroup[]>("/dns/nameservers");
@@ -33,30 +35,33 @@ export default function NameServers() {
         <Breadcrumbs>
           <Breadcrumbs.Item
             href={"/dns/nameservers"}
-            label={"DNS"}
+            label={t("nav.dns", "DNS")}
             icon={<DNSIcon size={13} />}
           />
           <Breadcrumbs.Item
             href={"/dns/nameservers"}
-            label={"Nameservers"}
+            label={t("nav.nameservers", "Nameservers")}
             active
             icon={<DNSIcon size={13} />}
           />
         </Breadcrumbs>
-        <h1 ref={headingRef}>Nameservers</h1>
+        <h1 ref={headingRef}>{t("nav.nameservers", "Nameservers")}</h1>
         <Paragraph>
-          Add nameservers for domain name resolution in your NetBird network.
+          {t(
+            "dns.nameservers_description",
+            "Add nameservers for domain name resolution in your NetBird network.",
+          )}
         </Paragraph>
         <Paragraph>
-          Learn more about
+          {t("common.learn_more", "Learn more about")}
           <InlineLink
             href={"https://docs.netbird.io/how-to/manage-dns-in-your-network"}
             target={"_blank"}
           >
-            DNS
+            {t("nav.dns", "DNS")}
             <ExternalLinkIcon size={12} />
           </InlineLink>
-          in our documentation.
+          {t("common.in_documentation", "in our documentation.")}
         </Paragraph>
       </div>
 

@@ -23,6 +23,7 @@ import React from "react";
 import { useSWRConfig } from "swr";
 import TeamIcon from "@/assets/icons/TeamIcon";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { useLanguage } from "@/contexts/LanguageProvider";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { Group } from "@/interfaces/Group";
 import { User } from "@/interfaces/User";
@@ -161,6 +162,7 @@ export default function UsersTable({
 
   const router = useRouter();
   const { permission } = usePermissions();
+  const { t } = useLanguage();
 
   return (
     <DataTable
@@ -190,7 +192,10 @@ export default function UsersTable({
             }
           : onRowClick
       }
-      searchPlaceholder={"Search by name, email or role..."}
+      searchPlaceholder={t(
+        "users.search_placeholder",
+        "Search by name, email or role...",
+      )}
       getStartedCard={
         !getStartedCard ? (
           <GetStartedTest
@@ -201,10 +206,11 @@ export default function UsersTable({
                 size={"large"}
               />
             }
-            title={"Add New Users"}
-            description={
-              "It looks like you don't have any users yet. Get started by inviting users to your account."
-            }
+            title={t("users.add_users_title", "Add New Users")}
+            description={t(
+              "users.add_users_description",
+              "It looks like you don't have any users yet. Get started by inviting users to your account.",
+            )}
             button={
               <div className={"flex flex-col items-center justify-center"}>
                 <InviteUserButton show={true} />
@@ -212,14 +218,14 @@ export default function UsersTable({
             }
             learnMore={
               <>
-                Learn more about
+                {t("common.learn_more", "Learn more about")}
                 <InlineLink
                   href={
                     "https://docs.netbird.io/how-to/add-users-to-your-network"
                   }
                   target={"_blank"}
                 >
-                  Users
+                  {t("users.link_text", "Users")}
                   <ExternalLinkIcon size={12} />
                 </InlineLink>
               </>
@@ -276,6 +282,7 @@ export const InviteUserButton = ({
 }: InviteUserButtonProps) => {
   const { permission } = usePermissions();
   const account = useAccount();
+  const { t } = useLanguage();
 
   if (!show) return null;
 
@@ -294,7 +301,9 @@ export const InviteUserButton = ({
         disabled={!permission.users.create}
       >
         <MailPlus size={16} />
-        {isCloud ? "Invite User" : "Create User"}
+        {isCloud
+          ? t("users.invite_user", "Invite User")
+          : t("users.create_user", "Create User")}
       </Button>
     </UserInviteModal>
   );

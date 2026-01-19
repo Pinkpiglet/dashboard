@@ -17,6 +17,7 @@ import React, { useState } from "react";
 import { useSWRConfig } from "swr";
 import SetupKeysIcon from "@/assets/icons/SetupKeysIcon";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { useLanguage } from "@/contexts/LanguageProvider";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { Group } from "@/interfaces/Group";
 import { SetupKey } from "@/interfaces/SetupKey";
@@ -157,6 +158,7 @@ export default function SetupKeysTable({
   );
 
   const [open, setOpen] = useState(false);
+  const { t } = useLanguage();
 
   return (
     <>
@@ -176,7 +178,10 @@ export default function SetupKeysTable({
         setSorting={setSorting}
         columns={SetupKeysTableColumns}
         data={setupKeys}
-        searchPlaceholder={"Search by name, type or group..."}
+        searchPlaceholder={t(
+          "setup_keys.search_placeholder",
+          "Search by name, type or group...",
+        )}
         columnVisibility={{
           valid: false,
           group_strings: false,
@@ -186,10 +191,14 @@ export default function SetupKeysTable({
             <NoResults
               icon={<SetupKeysIcon className={"fill-nb-gray-200"} size={20} />}
               className={"py-4"}
-              title={"This group is not used within any setup keys yet"}
-              description={
-                "Assign this group when creating a new setup key to see them listed here."
-              }
+              title={t(
+                "setup_keys.no_keys_title",
+                "This group is not used within any setup keys yet",
+              )}
+              description={t(
+                "setup_keys.no_keys_description",
+                "Assign this group when creating a new setup key to see them listed here.",
+              )}
             >
               <Button
                 variant={"primary"}
@@ -198,7 +207,7 @@ export default function SetupKeysTable({
                 disabled={!permission.setup_keys.create}
               >
                 <PlusCircle size={16} />
-                Create Setup Key
+                {t("setup_keys.create_button", "Create Setup Key")}
               </Button>
             </NoResults>
           ) : (
@@ -212,10 +221,11 @@ export default function SetupKeysTable({
                   size={"large"}
                 />
               }
-              title={"Create Setup Key"}
-              description={
-                "Add a setup key to register new machines in your network. The key links machines to your account during initial setup."
-              }
+              title={t("setup_keys.get_started_title", "Create Setup Key")}
+              description={t(
+                "setup_keys.get_started_description",
+                "Add a setup key to register new machines in your network. The key links machines to your account during initial setup.",
+              )}
               button={
                 <Button
                   variant={"primary"}
@@ -224,19 +234,19 @@ export default function SetupKeysTable({
                   disabled={!permission.setup_keys.create}
                 >
                   <PlusCircle size={16} />
-                  Create Setup Key
+                  {t("setup_keys.create_button", "Create Setup Key")}
                 </Button>
               }
               learnMore={
                 <>
-                  Learn more about
+                  {t("common.learn_more", "Learn more about")}
                   <InlineLink
                     href={
                       "https://docs.netbird.io/how-to/register-machines-using-setup-keys"
                     }
                     target={"_blank"}
                   >
-                    Setup Keys
+                    {t("setup_keys.link_text", "Setup Keys")}
                     <ExternalLinkIcon size={12} />
                   </InlineLink>
                 </>

@@ -11,6 +11,7 @@ import { ExternalLinkIcon, User2 } from "lucide-react";
 import React, { lazy, Suspense } from "react";
 import TeamIcon from "@/assets/icons/TeamIcon";
 import { useGroups } from "@/contexts/GroupsProvider";
+import { useLanguage } from "@/contexts/LanguageProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { User } from "@/interfaces/User";
 import PageContainer from "@/layouts/PageContainer";
@@ -20,6 +21,7 @@ const UsersTable = lazy(() => import("@/modules/users/UsersTable"));
 export default function TeamUsers() {
   const { isLoading: isGroupsLoading } = useGroups();
   const { permission } = usePermissions();
+  const { t } = useLanguage();
   const { data: users, isLoading } = useFetchApi<User[]>(
     "/users?service_user=false",
   );
@@ -33,31 +35,33 @@ export default function TeamUsers() {
         <Breadcrumbs>
           <Breadcrumbs.Item
             href={"/team"}
-            label={"Team"}
+            label={t("nav.team", "Team")}
             icon={<TeamIcon size={13} />}
           />
           <Breadcrumbs.Item
             href={"/team/users"}
-            label={"Users"}
+            label={t("nav.users", "Users")}
             active
             icon={<User2 size={16} />}
           />
         </Breadcrumbs>
-        <h1 ref={headingRef}>Users</h1>
+        <h1 ref={headingRef}>{t("nav.users", "Users")}</h1>
         <Paragraph>
-          Manage users and their permissions. Same-domain email users are added
-          automatically on first sign-in.
+          {t(
+            "users.page_description",
+            "Manage users and their permissions. Same-domain email users are added automatically on first sign-in.",
+          )}
         </Paragraph>
         <Paragraph>
-          Learn more about
+          {t("common.learn_more", "Learn more about")}
           <InlineLink
             href={"https://docs.netbird.io/how-to/add-users-to-your-network"}
             target={"_blank"}
           >
-            Users
+            {t("nav.users", "Users")}
             <ExternalLinkIcon size={12} />
           </InlineLink>
-          in our documentation.
+          {t("common.in_documentation", "in our documentation.")}
         </Paragraph>
       </div>
       <RestrictedAccess page={"Users"} hasAccess={permission.users.read}>

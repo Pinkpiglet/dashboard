@@ -11,6 +11,7 @@ import { ExternalLinkIcon } from "lucide-react";
 import React, { lazy, Suspense, useMemo } from "react";
 import SetupKeysIcon from "@/assets/icons/SetupKeysIcon";
 import { useGroups } from "@/contexts/GroupsProvider";
+import { useLanguage } from "@/contexts/LanguageProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { Group } from "@/interfaces/Group";
 import { SetupKey } from "@/interfaces/SetupKey";
@@ -24,6 +25,7 @@ export default function SetupKeys() {
   const { data: setupKeys, isLoading } = useFetchApi<SetupKey[]>("/setup-keys");
   const { permission } = usePermissions();
   const { groups } = useGroups();
+  const { t } = useLanguage();
 
   const setupKeysWithGroups = useMemo(() => {
     if (!setupKeys) return [];
@@ -50,27 +52,29 @@ export default function SetupKeys() {
         <Breadcrumbs>
           <Breadcrumbs.Item
             href={"/setup-keys"}
-            label={"Setup Keys"}
+            label={t("nav.setup_keys", "Setup Keys")}
             icon={<SetupKeysIcon size={13} />}
           />
         </Breadcrumbs>
-        <h1 ref={headingRef}>Setup Keys</h1>
+        <h1 ref={headingRef}>{t("nav.setup_keys", "Setup Keys")}</h1>
         <Paragraph>
-          Setup keys are pre-authentication keys that allow to register new
-          machines in your network.
+          {t(
+            "setup_keys.page_description",
+            "Setup keys are pre-authentication keys that allow to register new machines in your network.",
+          )}
         </Paragraph>
         <Paragraph>
-          Learn more about
+          {t("common.learn_more", "Learn more about")}
           <InlineLink
             href={
               "https://docs.netbird.io/how-to/register-machines-using-setup-keys"
             }
             target={"_blank"}
           >
-            Setup Keys
+            {t("nav.setup_keys", "Setup Keys")}
             <ExternalLinkIcon size={12} />
           </InlineLink>
-          in our documentation.
+          {t("common.in_documentation", "in our documentation.")}
         </Paragraph>
       </div>
       <RestrictedAccess
