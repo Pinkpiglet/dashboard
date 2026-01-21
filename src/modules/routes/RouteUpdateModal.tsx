@@ -40,6 +40,7 @@ import { usePeers } from "@/contexts/PeersProvider";
 import { useRoutes } from "@/contexts/RoutesProvider";
 import { OperatingSystem } from "@/interfaces/OperatingSystem";
 import { Peer } from "@/interfaces/Peer";
+import { useLanguage } from "@/contexts/LanguageProvider";
 import { Route } from "@/interfaces/Route";
 import useGroupHelper from "@/modules/groups/useGroupHelper";
 import { RoutingPeerMasqueradeSwitch } from "@/modules/networks/routing-peers/RoutingPeerMasqueradeSwitch";
@@ -194,7 +195,9 @@ function RouteUpdateModalContent({ onSuccess, route, cell }: ModalProps) {
   const [masquerade, setMasquerade] = useState<boolean>(
     route?.masquerade ?? true,
   );
-  const [isForced, setIsForced] = useState<boolean>(route?.skip_auto_apply === false);
+  const [isForced, setIsForced] = useState<boolean>(
+    route?.skip_auto_apply === false,
+  );
 
   // Refs to manage focus on tab change
   const networkRangeRef = useRef<HTMLInputElement>(null);
@@ -461,17 +464,19 @@ function RouteUpdateModalContent({ onSuccess, route, cell }: ModalProps) {
             />
 
             {isExitNode && (
-                              <FancyToggleSwitch
-                  value={isForced}
-                  onChange={setIsForced}
-                  label={
-                    <>
-                      <IconDirectionSign size={15} />
-                      Auto Apply Route
-                    </>
-                  }
-                  helpText={"Automatically apply this exit node to your distribution groups. This requires NetBird client v0.55.0 or higher."}
-                />
+              <FancyToggleSwitch
+                value={isForced}
+                onChange={setIsForced}
+                label={
+                  <>
+                    <IconDirectionSign size={15} />
+                    Auto Apply Route
+                  </>
+                }
+                helpText={
+                  "Automatically apply this exit node to your distribution groups. This requires NetBird client v0.55.0 or higher."
+                }
+              />
             )}
 
             {!isExitNode && (

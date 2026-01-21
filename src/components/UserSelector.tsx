@@ -9,6 +9,7 @@ import { ChevronsUpDown, MapPin } from "lucide-react";
 import * as React from "react";
 import { memo, useState } from "react";
 import { useElementSize } from "@/hooks/useElementSize";
+import { useLanguage } from "@/contexts/LanguageProvider";
 import { User } from "@/interfaces/User";
 import { SmallUserAvatar } from "@/modules/users/SmallUserAvatar";
 
@@ -172,6 +173,7 @@ export const UserListItem = ({
 }: UserListItemProps) => {
   const isSystemUser = user?.email === "NetBird" || user?.email === "";
   const maxChars = variant === "selected" ? 30 : 20;
+  const { t } = useLanguage();
 
   return (
     <div className={"flex items-center gap-2 w-full text-left"}>
@@ -197,7 +199,11 @@ export const UserListItem = ({
           )}
         >
           <TextWithTooltip
-            text={isSystemUser ? "System" : user?.name || user?.id}
+            text={
+              isSystemUser
+                ? t("common.system", "System")
+                : user?.name || user?.id
+            }
             maxChars={maxChars}
           />
         </span>
@@ -209,7 +215,7 @@ export const UserListItem = ({
           )}
         >
           <TextWithTooltip
-            text={user?.email || "NetBird"}
+            text={user?.email || t("common.netbird", "NetBird")}
             maxChars={maxChars}
           />
         </span>

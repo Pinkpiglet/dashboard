@@ -31,11 +31,17 @@ import SetupKeyNameCell from "@/modules/setup-keys/SetupKeyNameCell";
 import SetupKeyStatusCell from "@/modules/setup-keys/SetupKeyStatusCell";
 import SetupKeyUsageCell from "@/modules/setup-keys/SetupKeyUsageCell";
 
-export const SetupKeysTableColumns: ColumnDef<SetupKey>[] = [
+export const getSetupKeysTableColumns = (
+  t: (key: string, fallback?: string) => string,
+): ColumnDef<SetupKey>[] => [
   {
     accessorKey: "name",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Name & Key</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("setup_keys.col_name", "Name & Key")}
+        </DataTableHeader>
+      );
     },
     sortingFn: "text",
     cell: ({ row }) => (
@@ -54,7 +60,11 @@ export const SetupKeysTableColumns: ColumnDef<SetupKey>[] = [
   {
     accessorKey: "usage_limit",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Usage</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("setup_keys.col_usage", "Usage")}
+        </DataTableHeader>
+      );
     },
     cell: ({ row }) => (
       <SetupKeyUsageCell
@@ -67,11 +77,18 @@ export const SetupKeysTableColumns: ColumnDef<SetupKey>[] = [
   {
     accessorKey: "last_used",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Last used</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("setup_keys.col_last_used", "Last used")}
+        </DataTableHeader>
+      );
     },
     sortingFn: "datetime",
     cell: ({ row }) => (
-      <LastTimeRow date={row.original.last_used} text={"Last used on"} />
+      <LastTimeRow
+        date={row.original.last_used}
+        text={t("setup_keys.last_used_on", "Last used on")}
+      />
     ),
   },
   {
@@ -83,7 +100,11 @@ export const SetupKeysTableColumns: ColumnDef<SetupKey>[] = [
     accessorFn: (item) => item.auto_groups?.length,
     id: "groups",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Groups</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("setup_keys.col_groups", "Groups")}
+        </DataTableHeader>
+      );
     },
     cell: ({ row }) => <SetupKeyGroupsCell setupKey={row.original} />,
   },
@@ -91,7 +112,11 @@ export const SetupKeysTableColumns: ColumnDef<SetupKey>[] = [
   {
     accessorKey: "expires",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Expires</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("setup_keys.col_expires", "Expires")}
+        </DataTableHeader>
+      );
     },
     cell: ({ row }) => {
       let expires = dayjs(row.original.expires);
@@ -117,6 +142,8 @@ export const SetupKeysTableColumns: ColumnDef<SetupKey>[] = [
     },
   },
 ];
+
+export const SetupKeysTableColumns: ColumnDef<SetupKey>[] = [];
 
 type Props = {
   setupKeys?: SetupKey[];
@@ -159,6 +186,7 @@ export default function SetupKeysTable({
 
   const [open, setOpen] = useState(false);
   const { t } = useLanguage();
+  const tableColumns = getSetupKeysTableColumns(t);
 
   return (
     <>
@@ -173,10 +201,10 @@ export default function SetupKeysTable({
         inset={false}
         minimal={isGroupPage}
         keepStateInLocalStorage={!isGroupPage}
-        text={"Setup Keys"}
+        text={t("nav.setup_keys", "Setup Keys")}
         sorting={sorting}
         setSorting={setSorting}
-        columns={SetupKeysTableColumns}
+        columns={tableColumns}
         data={setupKeys}
         searchPlaceholder={t(
           "setup_keys.search_placeholder",

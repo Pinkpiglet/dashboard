@@ -38,11 +38,17 @@ import UserStatusCell from "@/modules/users/table-cells/UserStatusCell";
 import UserInviteModal from "@/modules/users/UserInviteModal";
 import { useAccount } from "@/modules/account/useAccount";
 
-export const UsersTableColumns: ColumnDef<User>[] = [
+export const getUsersTableColumns = (
+  t: (key: string, fallback?: string) => string,
+): ColumnDef<User>[] => [
   {
     accessorKey: "name",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Name</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("users.col_name", "Name")}
+        </DataTableHeader>
+      );
     },
     accessorFn: (row) => row.name + " " + row.email,
     sortingFn: "text",
@@ -55,7 +61,11 @@ export const UsersTableColumns: ColumnDef<User>[] = [
   {
     accessorKey: "role",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Role</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("users.col_role", "Role")}
+        </DataTableHeader>
+      );
     },
     sortingFn: "text",
     cell: ({ row }) => <UserRoleCell user={row.original} />,
@@ -63,7 +73,11 @@ export const UsersTableColumns: ColumnDef<User>[] = [
   {
     accessorKey: "status",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Status</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("users.col_status", "Status")}
+        </DataTableHeader>
+      );
     },
     sortingFn: "text",
     cell: ({ row }) => <UserStatusCell user={row.original} />,
@@ -72,7 +86,11 @@ export const UsersTableColumns: ColumnDef<User>[] = [
   {
     accessorKey: "auto_groups",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Groups</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("users.col_groups", "Groups")}
+        </DataTableHeader>
+      );
     },
     sortingFn: "text",
     cell: ({ row }) => <UserGroupCell user={row.original} />,
@@ -81,7 +99,11 @@ export const UsersTableColumns: ColumnDef<User>[] = [
   {
     accessorKey: "is_blocked",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Block User</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("users.col_block_user", "Block User")}
+        </DataTableHeader>
+      );
     },
     sortingFn: "text",
     cell: ({ row }) => <UserBlockCell user={row.original} />,
@@ -89,13 +111,17 @@ export const UsersTableColumns: ColumnDef<User>[] = [
   {
     accessorKey: "last_login",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Last Login</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("users.col_last_login", "Last Login")}
+        </DataTableHeader>
+      );
     },
     sortingFn: "text",
     cell: ({ row }) => (
       <LastTimeRow
         date={dayjs(row.original.last_login).toDate()}
-        text={"Last login on"}
+        text={t("users.last_login_on", "Last login on")}
       />
     ),
   },
@@ -112,6 +138,8 @@ export const UsersTableColumns: ColumnDef<User>[] = [
     cell: ({ row }) => <UserActionCell user={row.original} />,
   },
 ];
+
+export const UsersTableColumns: ColumnDef<User>[] = [];
 
 type Props = {
   users?: User[];
@@ -134,7 +162,7 @@ export default function UsersTable({
   minimal,
   rightSide,
   getStartedCard,
-  columns = UsersTableColumns,
+  columns,
   selectedRows,
   setSelectedRows,
   onRowClick,
@@ -143,6 +171,8 @@ export default function UsersTable({
   useFetchApi("/groups");
   const { mutate } = useSWRConfig();
   const path = usePathname();
+  const { t } = useLanguage();
+  const tableColumns = columns || getUsersTableColumns(t);
 
   // Default sorting state of the table
   const [sorting, setSorting] = useLocalStorage<SortingState>(
@@ -162,17 +192,16 @@ export default function UsersTable({
 
   const router = useRouter();
   const { permission } = usePermissions();
-  const { t } = useLanguage();
 
   return (
     <DataTable
       headingTarget={headingTarget}
       isLoading={isLoading}
       keepStateInLocalStorage={keepStateInLocalStorage}
-      text={"Users"}
+      text={t("nav.users", "Users")}
       sorting={sorting}
       setSorting={setSorting}
-      columns={columns}
+      columns={tableColumns}
       wrapperComponent={minimal ? Card : undefined}
       wrapperProps={minimal && { className: "mt-6 w-full" }}
       minimal={minimal}

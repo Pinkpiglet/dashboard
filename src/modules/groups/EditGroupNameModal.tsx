@@ -11,6 +11,7 @@ import { trim } from "lodash";
 import * as React from "react";
 import { useMemo, useState } from "react";
 import { useGroups } from "@/contexts/GroupsProvider";
+import { useLanguage } from "@/contexts/LanguageProvider";
 
 type Props = {
   initialName: string;
@@ -26,6 +27,7 @@ export const EditGroupNameModal = ({
 }: Props) => {
   const [name, setName] = useState(initialName);
   const { groups } = useGroups();
+  const { t } = useLanguage();
   const [error, setError] = useState("");
 
   const isDisabled = useMemo(() => {
@@ -39,7 +41,12 @@ export const EditGroupNameModal = ({
     const newName = e.target.value;
     const findGroup = groups?.find((g) => g.name === newName);
     if (findGroup) {
-      setError("This group already exists. Please choose another name.");
+      setError(
+        t(
+          "groups.name_exists_error",
+          "This group already exists. Please choose another name.",
+        ),
+      );
     } else {
       setError("");
     }
@@ -50,15 +57,18 @@ export const EditGroupNameModal = ({
     <Modal open={open} onOpenChange={onOpenChange}>
       <ModalContent maxWidthClass={"max-w-md"}>
         <ModalHeader
-          title={"Rename Group"}
-          description={"Set an easily identifiable name for your group."}
+          title={t("groups.rename_title", "Rename Group")}
+          description={t(
+            "groups.rename_description",
+            "Set an easily identifiable name for your group.",
+          )}
           color={"blue"}
         />
 
         <div className={"p-default flex flex-col gap-4"}>
           <div>
             <Input
-              placeholder={"e.g., Developers"}
+              placeholder={t("groups.name_placeholder", "e.g., Developers")}
               value={name}
               onChange={handleNameChange}
               error={error}
@@ -70,7 +80,7 @@ export const EditGroupNameModal = ({
           <div className={"flex gap-3 w-full justify-end"}>
             <ModalClose asChild={true}>
               <Button variant={"secondary"} className={"w-full"}>
-                Cancel
+                {t("common.cancel", "Cancel")}
               </Button>
             </ModalClose>
 
@@ -81,7 +91,7 @@ export const EditGroupNameModal = ({
               disabled={isDisabled}
               type={"submit"}
             >
-              Save
+              {t("common.save", "Save")}
             </Button>
           </div>
         </ModalFooter>

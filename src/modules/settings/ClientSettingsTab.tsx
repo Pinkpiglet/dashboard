@@ -18,40 +18,44 @@ import {
   ClockFadingIcon,
   ExternalLinkIcon,
   FlaskConicalIcon,
-  MonitorSmartphoneIcon,
-  RefreshCcw,
+  Monitor,
+  RotateCcw,
+  SaveIcon,
+  ShieldCheckIcon,
 } from "lucide-react";
-import React, { useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useSWRConfig } from "swr";
-import SettingsIcon from "@/assets/icons/SettingsIcon";
-import { usePermissions } from "@/contexts/PermissionsProvider";
+import { useLanguage } from "@/contexts/LanguageProvider";
 import { Account } from "@/interfaces/Account";
 import { SmallBadge } from "@components/ui/SmallBadge";
+import { usePermissions } from "@/contexts/PermissionsProvider";
+import SettingsIcon from "@/assets/icons/SettingsIcon";
 
 type Props = {
   account: Account;
 };
 
-const latestOrCustomVersion = [
-  {
-    label: "Disabled",
-    value: "disabled",
-  },
-  {
-    label: "Latest Version",
-    value: "latest",
-  },
-  {
-    label: "Custom Version",
-    value: "custom",
-  },
-] as SelectOption[];
-
 export default function ClientSettingsTab({ account }: Readonly<Props>) {
+  const { t } = useLanguage();
   const { permission } = usePermissions();
 
   const { mutate } = useSWRConfig();
   const saveRequest = useApiCall<Account>("/accounts/" + account.id, true);
+
+  const latestOrCustomVersion = [
+    {
+      label: t("settings.disabled", "Disabled"),
+      value: "disabled",
+    },
+    {
+      label: t("settings.latest_version", "Latest Version"),
+      value: "latest",
+    },
+    {
+      label: t("settings.custom_version", "Custom Version"),
+      value: "custom",
+    },
+  ] as SelectOption[];
 
   const [lazyConnection, setLazyConnection] = useState(
     account.settings?.lazy_connection_enabled ?? false,
@@ -161,39 +165,41 @@ export default function ClientSettingsTab({ account }: Readonly<Props>) {
           />
           <Breadcrumbs.Item
             href={"/settings?tab=clients"}
-            label={"Clients"}
-            icon={<MonitorSmartphoneIcon size={14} />}
+            label={t("settings.clients_title", "Clients")}
+            icon={<Monitor size={14} />}
             active
           />
         </Breadcrumbs>
         <div className={"flex items-start justify-between"}>
-          <h1>Clients</h1>
+          <h1>{t("settings.clients_title", "Clients")}</h1>
           <Button
             variant={"primary"}
             disabled={isSaveButtonDisabled}
             onClick={saveChanges}
             data-cy={"save-clients-settings"}
           >
-            Save Changes
+            <SaveIcon size={16} />
+            {t("common.save_changes", "Save Changes")}
           </Button>
         </div>
 
         <div className={"flex flex-col gap-6 w-full mt-8"}>
           <div className={"flex flex-col relative"}>
             <Label>
-              <RefreshCcw size={15} />
-              Automatic Updates
+              <RotateCcw size={15} />
+              {t("settings.automatic_updates", "Automatic Updates")}
               <SmallBadge
-                text={"Beta"}
+                text={t("nav.beta", "Beta")}
                 variant={"sky"}
                 className={"text-[9px] leading-none py-[3px] px-[5px]"}
                 textClassName={"top-0"}
               />
             </Label>
             <HelpText>
-              Select how NetBird clients handle automatic updates by choosing
-              the latest version, a custom version, or disabling updates
-              altogether.
+              {t(
+                "settings.automatic_updates_help",
+                "Select how NetBird clients handle automatic updates by choosing the latest version, a custom version, or disabling updates altogether.",
+              )}
             </HelpText>
             <div className={"gap-4 items-center grid grid-cols-2"}>
               <SelectDropdown
@@ -203,8 +209,8 @@ export default function ClientSettingsTab({ account }: Readonly<Props>) {
               />
               <Input
                 value={autoUpdateCustomVersion}
-                customPrefix={"Version"}
-                placeholder={"e.g., 0.52.2"}
+                customPrefix={t("settings.custom_version", "Version")}
+                placeholder={t("settings.version_placeholder", "e.g., 0.52.2")}
                 error={versionError}
                 errorTooltip={true}
                 disabled={autoUpdateMethod !== "custom"}
@@ -217,21 +223,22 @@ export default function ClientSettingsTab({ account }: Readonly<Props>) {
 
           <div className={"mt-3"}>
             <h2 className={"text-lg font-medium"}>
-              Experimental
+              {t("settings.experimental", "Experimental")}
               <FlaskConicalIcon
                 size={16}
                 className={"inline ml-1.5 relative -top-[2px]"}
               />
             </h2>
             <div className={"text-sm text-gray-400"}>
-              Lazy connections are an experimental feature. Functionality and
-              behavior may evolve. Instead of maintaining always-on connections,
-              NetBird activates them on-demand based on activity or signaling.{" "}
+              {t(
+                "settings.lazy_connections_desc",
+                "Lazy connections are an experimental feature. Functionality and behavior may evolve. Instead of maintaining always-on connections, NetBird activates them on-demand based on activity or signaling.",
+              )}{" "}
               <InlineLink
                 href={"https://docs.netbird.io/how-to/lazy-connection"}
                 target={"_blank"}
               >
-                Learn more
+                {t("common.learn_more", "Learn more")}
                 <ExternalLinkIcon size={12} />
               </InlineLink>
             </div>
@@ -242,14 +249,18 @@ export default function ClientSettingsTab({ account }: Readonly<Props>) {
             label={
               <>
                 <ClockFadingIcon size={15} />
-                Enable Lazy Connections
+                {t(
+                  "settings.enable_lazy_connections",
+                  "Enable Lazy Connections",
+                )}
               </>
             }
             helpText={
               <>
-                Allow to establish connections between peers only when required.
-                This requires NetBird client v0.45 or higher. Changes will only
-                take effect after restarting the clients.
+                {t(
+                  "settings.enable_lazy_connections_help",
+                  "Allow to establish connections between peers only when required. This requires NetBird client v0.45 or higher. Changes will only take effect after restarting the clients.",
+                )}
               </>
             }
             disabled={!permission.settings.update}

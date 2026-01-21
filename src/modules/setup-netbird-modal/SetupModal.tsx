@@ -17,6 +17,7 @@ import ShellIcon from "@/assets/icons/ShellIcon";
 import WindowsIcon from "@/assets/icons/WindowsIcon";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import useOperatingSystem from "@/hooks/useOperatingSystem";
+import { useLanguage } from "@/contexts/LanguageProvider";
 import { OperatingSystem } from "@/interfaces/OperatingSystem";
 import AndroidTab from "@/modules/setup-netbird-modal/AndroidTab";
 import DockerTab from "@/modules/setup-netbird-modal/DockerTab";
@@ -82,21 +83,25 @@ export function SetupModalContent({
   const [isFirstRun] = useLocalStorage<boolean>("netbird-first-run", true);
   const pathname = usePathname();
   const isInstallPage = pathname === "/install";
+  const { t } = useLanguage();
 
   const titleMessage = useMemo(() => {
     if (title) return title;
 
     if (isFirstRun && !isInstallPage) {
-      let name = user?.given_name || "there";
+      let name = user?.given_name || t("setup.greeting_name", "there");
       return (
         <>
-          Hello {name}! 👋 <br /> It&apos;s time to add your first device.
+          {t("setup.greeting", `Hello ${name}! 👋`)} <br />{" "}
+          {t("setup.add_first_device", "It's time to add your first device.")}
         </>
       );
     }
 
-    return setupKey ? "Install NetBird with Setup Key" : "Install NetBird";
-  }, [isFirstRun, isInstallPage, setupKey, title, user?.given_name]);
+    return setupKey
+      ? t("setup.install_with_key", "Install NetBird with Setup Key")
+      : t("setup.install_title", "Install NetBird");
+  }, [isFirstRun, isInstallPage, setupKey, title, user?.given_name, t]);
 
   return (
     <>
@@ -114,8 +119,14 @@ export function SetupModalContent({
             className={cn("mx-auto mt-3", setupKey ? "max-w-sm" : "max-w-xs")}
           >
             {setupKey
-              ? "To get started, install and run NetBird with the setup key as a parameter."
-              : "To get started, install NetBird and log in with your email account."}
+              ? t(
+                  "setup.install_with_key_desc",
+                  "To get started, install and run NetBird with the setup key as a parameter.",
+                )
+              : t(
+                  "setup.install_desc",
+                  "To get started, install NetBird and log in with your email account.",
+                )}
           </Paragraph>
         </div>
       )}
@@ -128,7 +139,7 @@ export function SetupModalContent({
                 "fill-nb-gray-500 group-data-[state=active]/trigger:fill-netbird transition-all"
               }
             />
-            Linux
+            {t("setup.os_linux", "Linux")}
           </TabsTrigger>
 
           <TabsTrigger value={String(OperatingSystem.WINDOWS)}>
@@ -137,7 +148,7 @@ export function SetupModalContent({
                 "fill-nb-gray-500 group-data-[state=active]/trigger:fill-netbird transition-all"
               }
             />
-            Windows
+            {t("setup.os_windows", "Windows")}
           </TabsTrigger>
           <TabsTrigger value={String(OperatingSystem.APPLE)}>
             <AppleIcon
@@ -145,7 +156,7 @@ export function SetupModalContent({
                 "fill-nb-gray-500 group-data-[state=active]/trigger:fill-netbird transition-all"
               }
             />
-            macOS
+            {t("setup.os_macos", "macOS")}
           </TabsTrigger>
 
           {!setupKey && (
@@ -156,7 +167,7 @@ export function SetupModalContent({
                     "fill-nb-gray-500 group-data-[state=active]/trigger:fill-netbird transition-all"
                   }
                 />
-                iOS
+                {t("setup.os_ios", "iOS")}
               </TabsTrigger>
               <TabsTrigger value={String(OperatingSystem.ANDROID)}>
                 <AndroidIcon
@@ -164,7 +175,7 @@ export function SetupModalContent({
                     "fill-nb-gray-500 group-data-[state=active]/trigger:fill-netbird transition-all"
                   }
                 />
-                Android
+                {t("setup.os_android", "Android")}
               </TabsTrigger>
             </>
           )}
@@ -176,7 +187,7 @@ export function SetupModalContent({
                   "fill-nb-gray-500 group-data-[state=active]/trigger:fill-netbird transition-all"
                 }
               />
-              Docker
+              {t("setup.os_docker", "Docker")}
             </TabsTrigger>
           )}
         </TabsList>
@@ -216,16 +227,17 @@ export function SetupModalContent({
         <ModalFooter variant={"setup"}>
           <div>
             <SmallParagraph>
-              After that you should be connected. Add more devices to your
-              network or manage your existing devices in the admin panel. If you
-              have further questions check out our{" "}
+              {t(
+                "setup.after_install",
+                "After that you should be connected. Add more devices to your network or manage your existing devices in the admin panel. If you have further questions check out our ",
+              )}
               <InlineLink
                 href={
                   "https://docs.netbird.io/how-to/getting-started#installation"
                 }
                 target={"_blank"}
               >
-                Installation Guide
+                {t("setup.installation_guide", "Installation Guide")}
                 <ExternalLinkIcon size={12} />
               </InlineLink>
             </SmallParagraph>
@@ -268,15 +280,22 @@ export const HostnameParameter = ({ hostname }: { hostname?: string }) => {
 };
 
 export const RoutingPeerSetupKeyInfo = () => {
+  const { t } = useLanguage();
   return (
     <div
       className={
         "flex gap-2 mt-1 items-center text-xs text-nb-gray-300 font-normal mb-1"
       }
     >
-      This setup key can be used only once within the next 24 hours.
+      {t(
+        "setup.key_usage_limit",
+        "This setup key can be used only once within the next 24 hours.",
+      )}
       <br />
-      When expired, the same key can not be used again.
+      {t(
+        "setup.key_expired",
+        "When expired, the same key can not be used again.",
+      )}
     </div>
   );
 };

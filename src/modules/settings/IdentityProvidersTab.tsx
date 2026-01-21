@@ -38,6 +38,7 @@ import {
   DropdownMenuTrigger,
 } from "@components/DropdownMenu";
 import { idpIcon } from "@/assets/icons/IdentityProviderIcons";
+import { useLanguage } from "@/contexts/LanguageProvider";
 
 export const idpTypeLabels: Record<SSOIdentityProviderType, string> = {
   oidc: "OIDC",
@@ -57,6 +58,7 @@ type ActionCellProps = {
 };
 
 function ActionCell({ provider, onEdit }: ActionCellProps) {
+  const { t } = useLanguage();
   const { confirm } = useDialog();
   const { mutate } = useSWRConfig();
   const deleteRequest = useApiCall<SSOIdentityProvider>(
@@ -66,23 +68,31 @@ function ActionCell({ provider, onEdit }: ActionCellProps) {
 
   const handleDelete = async () => {
     const choice = await confirm({
-      title: `Delete '${provider.name}'?`,
-      description:
+      title: t("settings.delete_idp", `Delete '${provider.name}'?`),
+      description: t(
+        "settings.delete_idp_confirm",
         "Are you sure you want to delete this identity provider? This action cannot be undone.",
-      confirmText: "Delete",
-      cancelText: "Cancel",
+      ),
+      confirmText: t("common.delete", "Delete"),
+      cancelText: t("common.cancel", "Cancel"),
       type: "danger",
     });
 
     if (!choice) return;
 
     notify({
-      title: "Delete Identity Provider",
-      description: "Identity provider was deleted successfully.",
+      title: t("settings.delete_idp", "Delete Identity Provider"),
+      description: t(
+        "settings.idp_deleted",
+        "Identity provider was deleted successfully.",
+      ),
       promise: deleteRequest.del().then(() => {
         mutate("/identity-providers");
       }),
-      loadingMessage: "Deleting identity provider...",
+      loadingMessage: t(
+        "settings.deleting_idp",
+        "Deleting identity provider...",
+      ),
     });
   };
 
@@ -100,7 +110,7 @@ function ActionCell({ provider, onEdit }: ActionCellProps) {
             disabled={!permission.identity_providers.update}
           >
             <PencilIcon size={14} className="mr-2" />
-            Edit
+            {t("common.edit", "Edit")}
           </DropdownMenuItem>
           <DropdownMenuItem
             onClick={handleDelete}
@@ -108,7 +118,7 @@ function ActionCell({ provider, onEdit }: ActionCellProps) {
             className="text-red-500 focus:text-red-500"
           >
             <Trash2 size={14} className="mr-2" />
-            Delete
+            {t("common.delete", "Delete")}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
@@ -117,6 +127,7 @@ function ActionCell({ provider, onEdit }: ActionCellProps) {
 }
 
 export default function IdentityProvidersTab() {
+  const { t } = useLanguage();
   const { permission } = usePermissions();
   const { mutate } = useSWRConfig();
   const { data: providers, isLoading } = useFetchApi<SSOIdentityProvider[]>(
@@ -152,7 +163,9 @@ export default function IdentityProvidersTab() {
     {
       accessorKey: "name",
       header: ({ column }) => (
-        <DataTableHeader column={column}>Name</DataTableHeader>
+        <DataTableHeader column={column}>
+          {t("settings.idp_name", "Name")}
+        </DataTableHeader>
       ),
       sortingFn: "text",
       cell: ({ row }) => (
@@ -167,7 +180,9 @@ export default function IdentityProvidersTab() {
     {
       accessorKey: "type",
       header: ({ column }) => (
-        <DataTableHeader column={column}>Type</DataTableHeader>
+        <DataTableHeader column={column}>
+          {t("settings.idp_type", "Type")}
+        </DataTableHeader>
       ),
       cell: ({ row }) => (
         <span className="text-nb-gray-400">
@@ -191,22 +206,24 @@ export default function IdentityProvidersTab() {
         <Breadcrumbs>
           <Breadcrumbs.Item
             href={"/settings"}
-            label={"Settings"}
+            label={t("nav.settings", "Settings")}
             icon={<SettingsIcon size={13} />}
           />
           <Breadcrumbs.Item
             href={"/settings?tab=identity-providers"}
-            label={"Identity Providers"}
+            label={t("settings.idp_title", "Identity Providers")}
             icon={<FingerprintIcon size={14} />}
             active
           />
         </Breadcrumbs>
         <div className={"flex items-start justify-between"}>
           <div>
-            <h1>Identity Providers</h1>
+            <h1>{t("settings.idp_title", "Identity Providers")}</h1>
             <Paragraph>
-              Configure identity providers for user authentication in your
-              network.
+              {t(
+                "settings.idp_description",
+                "Configure identity providers for user authentication in your network.",
+              )}
             </Paragraph>
           </div>
         </div>
@@ -221,13 +238,16 @@ export default function IdentityProvidersTab() {
 
       <DataTable
         isLoading={isLoading}
-        text={"Identity Providers"}
+        text={t("settings.idp_title", "Identity Providers")}
         sorting={sorting}
         setSorting={setSorting}
         columns={columns}
         data={providers}
         onRowClick={(row) => handleEdit(row.original)}
-        searchPlaceholder={"Search by name or type..."}
+        searchPlaceholder={t(
+          "settings.search_idp",
+          "Search by name or type...",
+        )}
         getStartedCard={
           <GetStartedTest
             icon={
@@ -237,10 +257,11 @@ export default function IdentityProvidersTab() {
                 size={"large"}
               />
             }
-            title={"Add Identity Provider"}
-            description={
-              "Configure an identity provider to enable SSO authentication for your users."
-            }
+            title={t("settings.add_idp", "Add Identity Provider")}
+            description={t(
+              "settings.no_idp",
+              "Configure an identity provider to enable SSO authentication for your users.",
+            )}
             button={
               <Button
                 variant={"primary"}
@@ -248,7 +269,7 @@ export default function IdentityProvidersTab() {
                 disabled={!permission.identity_providers.create}
               >
                 <PlusCircle size={16} />
-                Add Identity Provider
+                {t("settings.add_idp", "Add Identity Provider")}
               </Button>
             }
           />
@@ -263,7 +284,7 @@ export default function IdentityProvidersTab() {
                 disabled={!permission.identity_providers.create}
               >
                 <PlusCircle size={16} />
-                Add Identity Provider
+                {t("settings.add_idp", "Add Identity Provider")}
               </Button>
             )}
           </>

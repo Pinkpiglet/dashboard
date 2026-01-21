@@ -20,6 +20,7 @@ import { ExternalLinkIcon, PlusCircle, User2 } from "lucide-react";
 import React, { useMemo, useState } from "react";
 import { useSWRConfig } from "swr";
 import { Role, User } from "@/interfaces/User";
+import { useLanguage } from "@/contexts/LanguageProvider";
 import { UserRoleSelector } from "@/modules/users/UserRoleSelector";
 
 type Props = {
@@ -44,13 +45,17 @@ type ModalProps = {
 export function ServiceUserModalContent({ onSuccess }: Readonly<ModalProps>) {
   const userRequest = useApiCall<User>("/users");
   const { mutate } = useSWRConfig();
+  const { t } = useLanguage();
   const [name, setName] = useState("");
   const [role, setRole] = useState("user");
 
   const create = async () => {
     notify({
-      title: "Service user created",
-      description: `${name} was successfully created.`,
+      title: t("service_users.created_title", "Service user created"),
+      description: t(
+        "service_users.created_desc",
+        `${name} was successfully created.`,
+      ),
       promise: userRequest
         .post({
           name,
@@ -62,7 +67,7 @@ export function ServiceUserModalContent({ onSuccess }: Readonly<ModalProps>) {
           onSuccess && onSuccess();
           mutate("/users?service_user=true");
         }),
-      loadingMessage: "Creating service user...",
+      loadingMessage: t("service_users.creating", "Creating service user..."),
     });
   };
 
@@ -74,10 +79,11 @@ export function ServiceUserModalContent({ onSuccess }: Readonly<ModalProps>) {
     <ModalContent maxWidthClass={"max-w-lg"}>
       <ModalHeader
         icon={<IconSettings2 />}
-        title={"Create Service User"}
-        description={
-          "Service users are non-login users that are not associated with any specific person."
-        }
+        title={t("service_users.create_title", "Create Service User")}
+        description={t(
+          "service_users.description",
+          "Service users are non-login users that are not associated with any specific person.",
+        )}
         color={"netbird"}
       />
 
@@ -92,7 +98,7 @@ export function ServiceUserModalContent({ onSuccess }: Readonly<ModalProps>) {
                   <User2 size={16} className={"text-nb-gray-300"} />
                 </div>
               }
-              placeholder={"John Doe"}
+              placeholder={t("service_users.name_placeholder", "John Doe")}
               value={name}
               data-cy={"service-user-name"}
               onChange={(e) => setName(e.target.value)}
@@ -111,19 +117,21 @@ export function ServiceUserModalContent({ onSuccess }: Readonly<ModalProps>) {
       <ModalFooter className={"items-center"}>
         <div className={"w-full"}>
           <Paragraph className={"text-sm mt-auto"}>
-            Learn more about
+            {t("common.learn_more", "Learn more about")}
             <InlineLink
               href={"https://docs.netbird.io/how-to/access-netbird-public-api"}
               target={"_blank"}
             >
-              Service Users
+              {t("service_users.link_text", "Service Users")}
               <ExternalLinkIcon size={12} />
             </InlineLink>
           </Paragraph>
         </div>
         <div className={"flex gap-3 w-full justify-end"}>
           <ModalClose asChild={true}>
-            <Button variant={"secondary"}>Cancel</Button>
+            <Button variant={"secondary"}>
+              {t("common.cancel", "Cancel")}
+            </Button>
           </ModalClose>
 
           <Button
@@ -133,7 +141,7 @@ export function ServiceUserModalContent({ onSuccess }: Readonly<ModalProps>) {
             data-cy={"create-service-user"}
           >
             <PlusCircle size={16} />
-            Create Service User
+            {t("service_users.create_button", "Create Service User")}
           </Button>
         </div>
       </ModalFooter>

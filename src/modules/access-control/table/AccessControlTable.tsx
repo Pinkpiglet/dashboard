@@ -32,6 +32,7 @@ import AccessControlPortsCell from "@/modules/access-control/table/AccessControl
 import AccessControlPostureCheckCell from "@/modules/access-control/table/AccessControlPostureCheckCell";
 import AccessControlProtocolCell from "@/modules/access-control/table/AccessControlProtocolCell";
 import AccessControlSourcesCell from "@/modules/access-control/table/AccessControlSourcesCell";
+import { useLanguage } from "@/contexts/LanguageProvider";
 
 type Props = {
   policies?: Policy[];
@@ -40,12 +41,18 @@ type Props = {
   isGroupPage?: boolean;
 };
 
-export const AccessControlTableColumns: ColumnDef<Policy>[] = [
+export const getAccessControlTableColumns = (
+  t: (key: string, fallback?: string) => string,
+): ColumnDef<Policy>[] => [
   {
     id: "name",
     accessorFn: (row) => removeAllSpaces(row?.name),
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Name</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("access_control.col_name", "Name")}
+        </DataTableHeader>
+      );
     },
     sortingFn: "text",
     filterFn: "fuzzy",
@@ -63,7 +70,11 @@ export const AccessControlTableColumns: ColumnDef<Policy>[] = [
     accessorFn: (row) => row.enabled,
     sortingFn: "basic",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Active</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("access_control.col_active", "Active")}
+        </DataTableHeader>
+      );
     },
     cell: ({ cell }) => <AccessControlActiveCell policy={cell.row.original} />,
   },
@@ -79,7 +90,11 @@ export const AccessControlTableColumns: ColumnDef<Policy>[] = [
     },
     sortingFn: "basic",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Sources</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("access_control.col_sources", "Sources")}
+        </DataTableHeader>
+      );
     },
     cell: ({ cell }) => <AccessControlSourcesCell policy={cell.row.original} />,
   },
@@ -95,7 +110,11 @@ export const AccessControlTableColumns: ColumnDef<Policy>[] = [
     },
     sortingFn: "basic",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Direction</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("access_control.col_direction", "Direction")}
+        </DataTableHeader>
+      );
     },
     cell: ({ cell }) => (
       <AccessControlDirectionCell policy={cell.row.original} />
@@ -150,7 +169,11 @@ export const AccessControlTableColumns: ColumnDef<Policy>[] = [
     },
     sortingFn: "basic",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Ports</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("access_control.col_ports", "Ports")}
+        </DataTableHeader>
+      );
     },
     cell: ({ cell }) => <AccessControlPortsCell policy={cell.row.original} />,
   },
@@ -159,7 +182,11 @@ export const AccessControlTableColumns: ColumnDef<Policy>[] = [
     accessorFn: (row) => row.source_posture_checks?.length || 0,
     sortingFn: "basic",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Posture Checks</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("access_control.col_posture_checks", "Posture Checks")}
+        </DataTableHeader>
+      );
     },
     cell: ({ cell }) => (
       <AccessControlPostureCheckCell policy={cell.row.original} />
@@ -184,6 +211,7 @@ export default function AccessControlTable({
   headingTarget,
   isGroupPage,
 }: Readonly<Props>) {
+  const { t } = useLanguage();
   const { mutate } = useSWRConfig();
   const path = usePathname();
   const { permission } = usePermissions();
@@ -272,10 +300,10 @@ export default function AccessControlTable({
               ]
             : undefined
         }
-        text={"Access Control Policies"}
+        text={t("nav.access_control", "Access Control Policies")}
         sorting={sorting}
         setSorting={setSorting}
-        columns={AccessControlTableColumns}
+        columns={getAccessControlTableColumns(t)}
         columnVisibility={{
           description: false,
           id: false,
@@ -287,18 +315,22 @@ export default function AccessControlTable({
           setEditModal(true);
           setCurrentCellClicked(cell);
         }}
-        searchPlaceholder={"Search by name and description..."}
+        searchPlaceholder={t(
+          "access_control.search_placeholder",
+          "Search by name, source, destination...",
+        )}
         getStartedCard={
           isGroupPage ? (
             <NoResults
               className={"py-4"}
-              title={"This group is not used within any policies yet"}
-              description={
-                "Assign this group as either a source or destination inside a policy to see them listed here."
-              }
-              icon={
-                <AccessControlIcon size={20} className={"fill-nb-gray-300"} />
-              }
+              title={t(
+                "access_control.group_not_used",
+                "This group is not used within any policies yet",
+              )}
+              description={t(
+                "access_control.group_not_used_desc",
+                "Assign this group as either a source or destination inside a policy to see them listed here.",
+              )}
             >
               <div className={"flex gap-4 items-center justify-center"}>
                 <AccessControlModal>
@@ -308,7 +340,7 @@ export default function AccessControlTable({
                     disabled={!permission.policies.create}
                   >
                     <PlusCircle size={16} />
-                    Add Policy
+                    {t("access_control.add_policy", "Add Policy")}
                   </Button>
                 </AccessControlModal>
               </div>
@@ -327,10 +359,11 @@ export default function AccessControlTable({
                   size={"large"}
                 />
               }
-              title={"Create New Policy"}
-              description={
-                "It looks like you don't have any policies yet. Policies can allow connections by specific protocol and ports."
-              }
+              title={t("access_control.create_policy", "Create New Policy")}
+              description={t(
+                "access_control.no_policies",
+                "It looks like you don't have any policies yet. Policies can allow connections by specific protocol and ports.",
+              )}
               button={
                 <div className={"flex gap-4 items-center justify-center"}>
                   <AccessControlModal>
@@ -339,14 +372,17 @@ export default function AccessControlTable({
                       disabled={!permission.policies.create}
                     >
                       <PlusCircle size={16} />
-                      Add Policy
+                      {t("access_control.add_policy", "Add Policy")}
                     </Button>
                   </AccessControlModal>
                 </div>
               }
               learnMore={
                 <>
-                  Learn more about
+                  {t(
+                    "access_control.learn_more_policies",
+                    "Learn more about Access Control",
+                  )}
                   <InlineLink
                     href={
                       "https://docs.netbird.io/how-to/manage-network-access"
@@ -372,7 +408,7 @@ export default function AccessControlTable({
                     disabled={!permission.policies.create}
                   >
                     <PlusCircle size={16} />
-                    Add Policy
+                    {t("access_control.add_policy", "Add Policy")}
                   </Button>
                 </AccessControlModal>
               </div>
@@ -396,7 +432,7 @@ export default function AccessControlTable({
                       : "secondary"
                   }
                 >
-                  All
+                  {t("access_control.all", "All")}
                 </ButtonGroup.Button>
                 <ButtonGroup.Button
                   onClick={() => {
@@ -410,7 +446,7 @@ export default function AccessControlTable({
                       : "secondary"
                   }
                 >
-                  Active
+                  {t("access_control.enabled", "Enabled")}
                 </ButtonGroup.Button>
                 <ButtonGroup.Button
                   onClick={() => {

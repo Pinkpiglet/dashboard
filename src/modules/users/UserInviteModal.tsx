@@ -20,6 +20,7 @@ import Image from "next/image";
 import React, { useMemo, useState } from "react";
 import { useSWRConfig } from "swr";
 import useCopyToClipboard from "@/hooks/useCopyToClipboard";
+import { useLanguage } from "@/contexts/LanguageProvider";
 import Avatar1 from "@/assets/avatars/009.jpg";
 import Avatar2 from "@/assets/avatars/030.jpg";
 import Avatar3 from "@/assets/avatars/063.jpg";
@@ -28,7 +29,7 @@ import { Group } from "@/interfaces/Group";
 import { Role, User } from "@/interfaces/User";
 import useGroupHelper from "@/modules/groups/useGroupHelper";
 import { UserRoleSelector } from "@/modules/users/UserRoleSelector";
-import {isNetBirdHosted} from "@utils/netbird";
+import { isNetBirdHosted } from "@utils/netbird";
 
 type Props = {
   children: React.ReactNode;
@@ -135,6 +136,7 @@ export function UserInviteModalContent({
 }: Readonly<ModalProps>) {
   const userRequest = useApiCall<User>("/users");
   const { mutate } = useSWRConfig();
+  const { t } = useLanguage();
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -148,8 +150,11 @@ export function UserInviteModalContent({
     const groups = await saveGroups();
     const groupIds = groups.map((group) => group.id) as string[];
     notify({
-      title: "User Invitation",
-      description: `${name} was invited to join your network.`,
+      title: t("users.invitation_title", "User Invitation"),
+      description: t(
+        "users.invitation_desc",
+        `${name} was invited to join your network.`,
+      ),
       promise: userRequest
         .post({
           name,
@@ -162,7 +167,7 @@ export function UserInviteModalContent({
           mutate("/users?service_user=false");
           onSuccess && onSuccess(user);
         }),
-      loadingMessage: "Sending invite...",
+      loadingMessage: t("users.sending_invite", "Sending invite..."),
     });
   };
   const isValidEmail = useMemo(() => {
@@ -194,10 +199,20 @@ export function UserInviteModalContent({
         }
       >
         <h2 className={"text-lg my-0 leading-[1.5 text-center]"}>
-            {isNetBirdHosted() ? "Invite User" : "Create User"}
+          {isNetBirdHosted()
+            ? t("users.invite_user", "Invite User")
+            : t("users.create_user", "Create User")}
         </h2>
         <Paragraph className={cn("text-sm text-center max-w-xs")}>
-            {isNetBirdHosted() ? "Invite a user to your network and set their permissions." : "Create a NetBird user account with email and password."}
+          {isNetBirdHosted()
+            ? t(
+                "users.invite_description",
+                "Invite a user to your network and set their permissions.",
+              )
+            : t(
+                "users.create_description",
+                "Create a NetBird user account with email and password.",
+              )}
         </Paragraph>
       </div>
 
@@ -209,7 +224,7 @@ export function UserInviteModalContent({
                 <User2 size={16} className={"text-nb-gray-300"} />
               </div>
             }
-            placeholder={"John Doe"}
+            placeholder={t("users.name_placeholder", "John Doe")}
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
@@ -221,7 +236,7 @@ export function UserInviteModalContent({
                 <MailIcon size={16} className={"text-nb-gray-300"} />
               </div>
             }
-            placeholder={"hello@netbird.io"}
+            placeholder={t("users.email_placeholder", "hello@netbird.io")}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -233,9 +248,12 @@ export function UserInviteModalContent({
         </div>
 
         <div className={"mb-4"}>
-          <Label>Auto-assigned groups</Label>
+          <Label>{t("users.auto_groups_label", "Auto-assigned groups")}</Label>
           <HelpText>
-            Groups will be assigned to peers added by this user.
+            {t(
+              "users.auto_groups_help",
+              "Groups will be assigned to peers added by this user.",
+            )}
           </HelpText>
           <PeerGroupSelector
             onChange={setSelectedGroups}
@@ -254,7 +272,9 @@ export function UserInviteModalContent({
           disabled={isDisabled}
           onClick={sendInvite}
         >
-            {isNetBirdHosted() ? "Send Invitation" : "Create User"}
+          {isNetBirdHosted()
+            ? t("users.send_invitation", "Send Invitation")
+            : t("users.create_user", "Create User")}
           <IconMailForward size={16} />
         </Button>
       </ModalFooter>

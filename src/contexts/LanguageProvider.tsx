@@ -285,6 +285,393 @@ const translations: Record<string, Record<string, string>> = {
     "setup_keys.get_started_description":
       "Add a setup key to register new machines in your network. The key links machines to your account during initial setup.",
     "setup_keys.link_text": "Setup Keys",
+
+    // Users
+    "users.invite_user": "Invite User",
+    "users.create_user": "Create User",
+    "users.invite_description":
+      "Invite a user to your network and set their permissions.",
+    "users.create_description":
+      "Create a NetBird user account with email and password.",
+    "users.name_placeholder": "John Doe",
+    "users.email_placeholder": "hello@netbird.io",
+    "users.auto_groups_label": "Auto-assigned groups",
+    "users.auto_groups_help":
+      "Groups will be assigned to peers added by this user.",
+    "users.send_invitation": "Send Invitation",
+    "users.resend_invite_title": "Resend Invite",
+    "users.resend_invite_desc": "The invitation is being sent to %s",
+    "users.sending_invite": "Sending invitation...",
+    "users.sending": "Sending...",
+    "users.resend_invite": "Resend Invite",
+    "users.invitation_title": "User Invitation",
+    "users.invitation_desc": "%s was invited to join your network.",
+
+    // Users Table Columns
+    "users.col_name": "Name",
+    "users.col_role": "Role",
+    "users.col_status": "Status",
+    "users.col_groups": "Groups",
+    "users.col_block_user": "Block User",
+    "users.col_last_login": "Last Login",
+    "users.last_login_on": "Last login on",
+
+    // Setup Keys Table Columns
+    "setup_keys.col_name": "Name & Key",
+    "setup_keys.col_usage": "Usage",
+    "setup_keys.col_last_used": "Last used",
+    "setup_keys.last_used_on": "Last used on",
+    "setup_keys.col_groups": "Groups",
+    "setup_keys.col_expires": "Expires",
+
+    // Peers Table
+    "peers.col_name": "Name",
+    "peers.col_address": "Address",
+    "peers.col_groups": "Groups",
+    "peers.col_last_seen": "Last seen",
+    "peers.col_os": "OS",
+    "peers.col_serial": "Serial number",
+    "peers.col_version": "Version",
+    "peers.online": "Online",
+    "peers.offline": "Offline",
+    "peers.browser_peers_tooltip":
+      "Show temporary peers created by the NetBird browser client. These peers are ephemeral and will be deleted automatically after a short period of time.",
+    "users.pending_approvals": "Pending Approvals",
+
+    // Networks Table
+    "networks.col_network": "Network",
+    "networks.col_resources": "Resources",
+    "networks.col_policies": "Policies",
+    "networks.col_routing_peers": "Routing Peers",
+
+    // Groups Table
+    "groups.col_name": "Name",
+    "groups.col_peers": "Peers",
+    "groups.col_users": "Users",
+    "groups.col_resources": "Resources",
+    "groups.col_routes": "Routes",
+    "groups.col_policies": "Policies",
+    "groups.col_access_control": "Access Control",
+    "groups.col_in_use": "In Use",
+
+    // Access Control Table
+    "access_control.col_name": "Name",
+    "access_control.col_active": "Active",
+    "access_control.col_sources": "Sources",
+    "access_control.col_direction": "Direction",
+    "access_control.col_destinations": "Destinations",
+    "access_control.col_protocol": "Protocol",
+    "access_control.col_ports": "Ports",
+    "access_control.col_posture_checks": "Posture Checks",
+
+    // Peers
+    "peers.search_placeholder": "Search by name, IP, owner or group...",
+
+    // Peers Get Started
+    "peers.get_started_title": "Get Started with NetBird",
+    "peers.get_started_description":
+      "It looks like you don't have any connected machines.\nGet started by adding one to your network.",
+    "peers.getting_started_guide": "Getting Started Guide",
+
+    // User Status
+    "users.status_pending_approval": "Pending Approval",
+    "users.status_blocked": "Blocked",
+    "users.status_pending": "Pending",
+    "users.status_active": "Active",
+    "users.approval_required_tooltip":
+      "This user needs to be approved by an administrator before it can join your organization.",
+    "users.disable_approval_hint":
+      "If you want to disable approval for new users, go to ",
+    "users.disable_approval_and": "and disable ",
+    "users.user_approval": "User Approval",
+
+    // Setup Keys
+    "setup_keys.created_success_title": "Setup key created successfully!",
+    "setup_keys.created_success_desc":
+      "This key will not be shown again, so be sure to copy it and store in a secure location.",
+    "setup_keys.copied": "Setup-Key was copied to your clipboard!",
+    "setup_keys.create_failed": "Setup key could not be created...",
+    "setup_keys.close": "Close",
+    "setup_keys.install_netbird": "Install NetBird",
+    "setup_keys.unlimited": "Unlimited",
+    "setup_keys.creating_title": "Create Setup Key",
+    "setup_keys.creating_desc":
+      "Setup key created successfully. You can now enroll peers with your new key.",
+    "setup_keys.creating": "Creating your setup key...",
+    "setup_keys.create_title": "Create New Setup Key",
+    "setup_keys.create_description":
+      "Use this key to register new machines in your network",
+    "setup_keys.name_label": "Name",
+    "setup_keys.name_help": "Set an easily identifiable name for your key",
+    "setup_keys.name_placeholder": "e.g., AWS Servers",
+    "setup_keys.reusable": "Make this key reusable",
+    "setup_keys.reusable_help": "Use this type to enroll multiple peers",
+    "setup_keys.usage_limit_label": "Usage limit",
+    "setup_keys.usage_limit_help":
+      "For example, set to 30 if you want to enroll 30 peers",
+    "setup_keys.peers": "Peer(s)",
+    "setup_keys.expires_label": "Expires in",
+    "setup_keys.expires_help":
+      "Days until the key expires. Leave empty for no expiration.",
+    "setup_keys.days": "Day(s)",
+    "setup_keys.ephemeral_peers": "Ephemeral Peers",
+    "setup_keys.ephemeral_help":
+      "Peers that are offline for over 10 minutes will be removed automatically",
+    "setup_keys.allow_dns_labels": "Allow Extra DNS Labels",
+    "setup_keys.allow_dns_labels_help":
+      "Enable multiple subdomain labels when enrolling peers (e.g., host.dev.example.com).",
+    "setup_keys.auto_groups_label": "Auto-assigned groups",
+    "setup_keys.auto_groups_help":
+      "These groups will be automatically assigned to peers enrolled with this key",
+
+    // Groups
+    "groups.name_exists_error":
+      "This group already exists. Please choose another name.",
+    "groups.rename_title": "Rename Group",
+    "groups.rename_description":
+      "Set an easily identifiable name for your group.",
+
+    // Peers
+    "peers.add_peer": "Add Peer",
+
+    // Setup Modal
+    "setup.greeting_name": "there",
+    "setup.greeting": "Hello %s! 👋",
+    "setup.add_first_device": "It's time to add your first device.",
+    "setup.install_with_key": "Install NetBird with Setup Key",
+    "setup.install_title": "Install NetBird",
+    "setup.install_with_key_desc":
+      "To get started, install and run NetBird with the setup key as a parameter.",
+    "setup.install_desc":
+      "To get started, install NetBird and log in with your email account.",
+    "setup.os_linux": "Linux",
+    "setup.os_windows": "Windows",
+    "setup.os_macos": "macOS",
+    "setup.os_ios": "iOS",
+    "setup.os_android": "Android",
+    "setup.os_docker": "Docker",
+    "setup.after_install":
+      "After that you should be connected. Add more devices to your network or manage your existing devices in the admin panel. If you have further questions check out our ",
+    "setup.installation_guide": "Installation Guide",
+    "setup.key_usage_limit":
+      "This setup key can be used only once within the next 24 hours.",
+    "setup.key_expired": "When expired, the same key can not be used again.",
+
+    // Service Users
+    "service_users.create_title": "Create Service User",
+    "service_users.description":
+      "Service users are non-login users that are not associated with any specific person.",
+    "service_users.created_title": "Service user created",
+    "service_users.created_desc": "%s was successfully created.",
+    "service_users.creating": "Creating service user...",
+    "service_users.name_placeholder": "John Doe",
+    "service_users.link_text": "Service Users",
+    "service_users.create_button": "Create Service User",
+
+    // Common
+    "common.unknown": "Unknown",
+    "common.system": "System",
+    "common.netbird": "NetBird",
+
+    // Route
+    "route.create_new": "Create New Route",
+    "route.set_up_exit_node": "Set Up Exit Node",
+    "route.add_exit_node": "Add Exit Node",
+    "route.add_route": "Add Route",
+    "route.type": "Route Type",
+    "route.type_help":
+      "Select your route type to add either a network range or a list of domains.",
+    "route.network_range": "Network Range",
+    "route.domains": "Domains",
+    "route.network_range_help": "Add a private IPv4 address range",
+    "route.domains_help":
+      "Add domains that dynamically resolve to one or more IPv4 addresses. A maximum of 32 domains can be added.",
+    "route.add_domain": "Add Domain",
+    "route.keep_routes": "Keep Routes",
+    "route.keep_routes_help":
+      "Retain previously resolved routes after IP address updates to maintain stable connections.",
+    "route.routing_peer": "Routing Peer",
+    "route.peer_group": "Peer Group",
+    "route.routing_peer_help":
+      "Assign a single peer as a routing peer for the {type}.",
+    "route.peer_group_help":
+      "Assign a peer group with machines to be used as {type}.",
+    "route.exit_node": " exit node.",
+    "route.network_route": " network route.",
+    "route.exit_nodes": " exit nodes.",
+    "route.routing_peers": " routing peers.",
+    "route.distribution_groups": "Distribution Groups",
+    "route.distribution_groups_help_exit":
+      "{action} internet traffic through {peer} for the following groups",
+    "route.route_all_traffic_peer":
+      "Route all internet traffic through this peer for the following groups",
+    "route.route_all_traffic_peers":
+      "Route all internet traffic through the peer(s) for the following groups",
+    "route.advertise_route":
+      "Advertise this route to peers that belong to the following groups",
+    "route.access_control_groups": "Access Control Groups (optional)",
+    "route.access_control_groups_help":
+      "These groups allow you to limit access to this route. Simply use these groups as a destination when creating access policies.",
+    "route.network_identifier": "Network Identifier",
+    "route.network_identifier_help":
+      "Add a unique network identifier that is assigned to each device.",
+    "route.description_optional": "Description (optional)",
+    "route.description_help":
+      "Write a short description to add more context to this route.",
+    "route.enable_route": "Enable Route",
+    "route.enable_route_help":
+      "Use this switch to enable or disable the route.",
+    "route.auto_apply_route": "Auto Apply Route",
+    "route.auto_apply_route_help":
+      "Automatically apply this exit node to your distribution groups. This requires NetBird client v0.55.0 or higher.",
+    "route.metric": "Metric",
+    "route.metric_help": "A lower metric indicates higher priority routes.",
+    "route.cidr_error": "Please enter a valid CIDR, e.g., 192.168.1.0/24",
+    "route.identifier_error":
+      "Network Identifier must be less than 40 characters",
+    "route.metric_error": "Metric must be between 1 and 9999",
+    "route.create_policy_title":
+      "Do you want to create a new access control policy for the route '{network}'?",
+    "route.create_policy_desc":
+      "You have one or more access control groups added to this route. These groups allow you to limit access to this route by using them in access policies.",
+    "route.create_policy": "Create Policy",
+    "route.later": "Later",
+    "route.access_lans_vpc": "Access LANs and VPC by adding a network route.",
+    "route.name_description": "Name & Description",
+    "route.additional_settings": "Additional Settings",
+    "route.continue": "Continue",
+    "route.name_and_description": "Name & Description",
+
+    // Nameservers
+    "nameservers.search_placeholder":
+      "Search by name, domains or nameservers...",
+    "nameservers.add_nameserver": "Add Nameserver",
+    "nameservers.create_nameserver": "Create Nameserver",
+    "nameservers.no_nameservers":
+      "It looks like you don't have any nameservers. Get started by adding one to your network. Select a predefined or add your custom nameservers.",
+    "nameservers.enabled": "Enabled",
+    "nameservers.all": "All",
+    "nameservers.active": "Active",
+    "nameservers.inactive": "Inactive",
+    "nameservers.col_name": "Name",
+    "nameservers.col_active": "Active",
+    "nameservers.col_match_domains": "Match Domains",
+    "nameservers.col_nameservers": "Nameservers",
+    "nameservers.col_distribution_groups": "Distribution Groups",
+    "nameservers.group_not_used":
+      "This group is not used within any nameservers yet",
+    "nameservers.group_not_used_desc":
+      "Assign this group as a distribution group in your nameservers to see them listed here.",
+    "nameservers.learn_more_dns": "Learn more about DNS",
+
+    // DNS Zones
+    "dns_zones.search_placeholder": "Search by domain, ip, content or group...",
+    "dns_zones.add_zone": "Add Zone",
+    "dns_zones.create_new_zone": "Create New Zone",
+    "dns_zones.no_zones":
+      "It looks like you don't have any zones. Control domain name resolution for your network by adding a zone.",
+    "dns_zones.col_zone": "Zone",
+    "dns_zones.col_records": "Records",
+    "dns_zones.col_search_domain": "Search Domain",
+    "dns_zones.group_not_used": "This group is not used within any zones yet",
+    "dns_zones.group_not_used_desc":
+      "Assign this group as a distribution group in your zones to see them listed here.",
+    "dns_zones.learn_more_zones": "Learn more about DNS Zones",
+
+    // Settings - Clients
+    "settings.clients_title": "Clients",
+    "settings.automatic_updates": "Automatic Updates",
+    "settings.automatic_updates_help":
+      "Select how NetBird clients handle automatic updates by choosing the latest version, a custom version, or disabling updates altogether.",
+    "settings.disabled": "Disabled",
+    "settings.latest_version": "Latest Version",
+    "settings.custom_version": "Custom Version",
+    "settings.experimental": "Experimental",
+    "settings.lazy_connections": "Lazy Connections",
+    "settings.lazy_connections_desc":
+      "Lazy connections are an experimental feature. Functionality and behavior may evolve. Instead of maintaining always-on connections, NetBird activates them on-demand based on activity or signaling.",
+    "settings.enable_lazy_connections": "Enable Lazy Connections",
+    "settings.enable_lazy_connections_help":
+      "Allow to establish connections between peers only when required. This requires NetBird client v0.45 or higher. Changes will only take effect after restarting the clients.",
+    "settings.updating_client_settings": "Updating client settings...",
+    "settings.client_settings": "Client Settings",
+    "settings.client_updated": "Client settings successfully updated.",
+    "settings.updating_lazy_connections":
+      "Updating Lazy Connections setting...",
+    "settings.lazy_enabled": "Lazy Connections successfully enabled.",
+    "settings.lazy_disabled": "Lazy Connections successfully disabled.",
+    "settings.version_placeholder": "e.g., 0.52.2",
+    "settings.version_error":
+      "Please enter a valid version, e.g., 0.2, 0.2.0, 0.2.0.1",
+
+    // Settings - Identity Providers
+    "settings.idp_title": "Identity Providers",
+    "settings.idp_description":
+      "Configure identity providers for user authentication in your network.",
+    "settings.add_idp": "Add Identity Provider",
+    "settings.search_idp": "Search by name or type...",
+    "settings.no_idp":
+      "Configure an identity provider to enable SSO authentication for your users.",
+    "settings.idp_name": "Name",
+    "settings.idp_type": "Type",
+    "settings.delete_idp": "Delete Identity Provider",
+    "settings.delete_idp_confirm":
+      "Are you sure you want to delete this identity provider? This action cannot be undone.",
+    "settings.deleting_idp": "Deleting identity provider...",
+    "settings.idp_deleted": "Identity provider was deleted successfully.",
+    "settings.edit": "Edit",
+
+    // Posture Checks
+    "posture_checks.search_placeholder": "Search by name or check...",
+    "posture_checks.add_check": "Add Check",
+    "posture_checks.create_check": "Create Check",
+    "posture_checks.no_checks":
+      "It looks like you don't have any posture checks. Get started by adding one to create rules for peer compliance.",
+    "posture_checks.learn_more_checks": "Learn more about Posture Checks",
+    "posture_checks.col_name": "Name",
+    "posture_checks.col_checks": "Checks",
+    "posture_checks.col_policy_usage": "Policy Usage",
+    "posture_checks.col_location": "Location",
+
+    // Access Control
+    "access_control.search_placeholder":
+      "Search by name, source, destination...",
+    "access_control.add_policy": "Add Policy",
+    "access_control.create_policy": "Create Policy",
+    "access_control.no_policies":
+      "It looks like you don't have any policies. Get started by creating one to manage network access.",
+    "access_control.learn_more_policies": "Learn more about Access Control",
+    "access_control.enabled": "Enabled",
+    "access_control.all": "All",
+    "access_control.group_not_used":
+      "This group is not used within any policies yet",
+    "access_control.group_not_used_desc":
+      "Assign this group as a source or destination in your policies to see them listed here.",
+
+    // Groups Detail
+    "groups.detail_users": "Users",
+    "groups.detail_peers": "Peers",
+    "groups.detail_resources": "Resources",
+    "groups.detail_routes": "Routes",
+    "groups.detail_policies": "Policies",
+    "groups.detail_access_control": "Access Control",
+
+    // Activity / Events
+    "activity.search_placeholder": "Search by action, email or IP...",
+    "activity.col_action": "Action",
+    "activity.col_actor": "Actor",
+    "activity.col_target": "Target",
+    "activity.col_date": "Date",
+    "activity.col_code": "Code",
+    "activity.no_events": "No events to display",
+    "activity.loading_events": "Loading events...",
+    "activity.failed_load": "Failed to load events",
+    "activity.retry": "Retry",
+    "activity.canceled": "Canceled",
+    "activity.completed": "Completed",
+    "activity.failed": "Failed",
+    "activity.success": "Success",
+    "activity.external": "External",
   },
   zh: {
     // Navigation
@@ -349,6 +736,27 @@ const translations: Record<string, Record<string, string>> = {
     "lang.toggle": "切换语言",
     "lang.current": "当前语言",
 
+    // Peers
+    "peers.online": "在线",
+    "peers.offline": "离线",
+    "peers.browser_peers_tooltip":
+      "显示由 NetBird 浏览器客户端创建的临时节点。这些节点是临时的，将在短时间后自动删除。",
+    "users.pending_approvals": "待批准",
+
+    // Groups
+    "groups.search_placeholder": "按名称搜索分组...",
+    "groups.used": "已使用",
+    "groups.unused": "未使用",
+    "groups.users_count": "用户",
+    "groups.peers_count": "节点",
+    "groups.policies_one": "策略",
+    "groups.policies_many": "策略",
+    "groups.resources_count": "网络资源",
+    "groups.routes_count": "网络路由",
+    "groups.nameservers_count": "域名服务器",
+    "groups.zones_count": "区域",
+    "groups.setup_keys_count": "设置密钥",
+
     // User
     "user.profile": "个人资料",
     "user.settings": "设置",
@@ -400,150 +808,190 @@ const translations: Record<string, Record<string, string>> = {
     "route.recommendation":
       "我们建议使用新的网络概念来更轻松地可视化和管理对资源的访问。",
     "route.go_to_networks": "前往网络",
+    "route.create_new": "创建新路由",
+    "route.set_up_exit_node": "设置退出节点",
+    "route.add_exit_node": "添加退出节点",
+    "route.add_route": "添加路由",
+    "route.type": "路由类型",
+    "route.type_help": "选择您的路由类型，添加网络范围或域名列表。",
+    "route.network_range": "网络范围",
+    "route.domains": "域名",
+    "route.network_range_help": "添加私有 IPv4 地址范围",
+    "route.domains_help":
+      "添加动态解析到一个或多个 IPv4 地址的域名。最多可添加 32 个域名。",
+    "route.add_domain": "添加域名",
+    "route.keep_routes": "保留路由",
+    "route.keep_routes_help":
+      "在 IP 地址更新后保留之前解析的路由，以保持连接稳定。",
+    "route.routing_peer": "路由节点",
+    "route.peer_group": "节点分组",
+    "route.routing_peer_help": "为 {type} 分配单个节点作为路由节点。",
+    "route.peer_group_help": "分配包含机器的节点分组作为 {type}。",
+    "route.exit_node": "退出节点。",
+    "route.network_route": "网络路由。",
+    "route.exit_nodes": "退出节点。",
+    "route.routing_peers": "路由节点。",
+    "route.distribution_groups": "分发分组",
+    "route.distribution_groups_help_exit":
+      "{action} 以下分组的 {peer} 互联网流量",
+    "route.route_all_traffic_peer": "通过此节点路由以下分组的互联网流量",
+    "route.route_all_traffic_peers": "通过节点路由以下分组的互联网流量",
+    "route.advertise_route": "向属于以下分组的节点通告此路由",
+    "route.access_control_groups": "访问控制分组（可选）",
+    "route.access_control_groups_help":
+      "这些分组允许您限制对此路由的访问。只需在创建访问策略时将这些分组用作目标。",
+    "route.network_identifier": "网络标识符",
+    "route.network_identifier_help": "添加分配给每个设备的唯一网络标识符。",
+    "route.description_optional": "描述（可选）",
+    "route.description_help": "写一个简短的描述来为该路由添加更多上下文。",
+    "route.enable_route": "启用路由",
+    "route.enable_route_help": "使用此开关启用或禁用路由。",
+    "route.auto_apply_route": "自动应用路由",
+    "route.auto_apply_route_help":
+      "自动将此退出节点应用到您的分发分组。这需要 NetBird 客户端 v0.55.0 或更高版本。",
+    "route.metric": "度量值",
+    "route.metric_help": "较低的度量值表示优先级较高的路由。",
+    "route.cidr_error": "请输入有效的 CIDR，例如 192.168.1.0/24",
+    "route.identifier_error": "网络标识符必须少于 40 个字符",
+    "route.metric_error": "度量值必须在 1 到 9999 之间",
+    "route.create_policy_title":
+      "您要为路由 '{network}' 创建新的访问控制策略吗？",
+    "route.create_policy_desc":
+      "您已向此路由添加了一个或多个访问控制分组。这些分组允许您通过在访问策略中使用它们来限制对此路由的访问。",
+    "route.create_policy": "创建策略",
+    "route.later": "稍后",
+    "route.access_lans_vpc": "通过添加网络路由访问 LAN 和 VPC。",
+    "route.name_description": "名称和描述",
+    "route.additional_settings": "其他设置",
+    "route.continue": "继续",
+    "route.name_and_description": "名称和描述",
 
-    // Peers
-    "peers.page_description":
-      "连接到专用网络的所有机器和设备列表。使用此视图管理节点。",
-    "peers.add_device_title": "将新设备添加到您的网络",
-    "peers.add_device_description":
-      "首先，安装 NetBird 并使用您的电子邮件账户登录。之后您应该已连接。",
-    "peers.check_guide": "如果还有其他问题，请查看我们的",
-    "peers.installation_guide": "安装指南",
+    // Nameservers
+    "nameservers.search_placeholder": "按名称、域名或域名服务器搜索...",
+    "nameservers.add_nameserver": "添加域名服务器",
+    "nameservers.create_nameserver": "创建域名服务器",
+    "nameservers.no_nameservers":
+      "您还没有域名服务器。通过添加一个来开始使用。选择预定义的或添加自定义域名服务器。",
+    "nameservers.enabled": "已启用",
+    "nameservers.all": "全部",
+    "nameservers.active": "活跃",
+    "nameservers.inactive": "未活跃",
+    "nameservers.col_name": "名称",
+    "nameservers.col_active": "活跃",
+    "nameservers.col_match_domains": "匹配域名",
+    "nameservers.col_nameservers": "域名服务器",
+    "nameservers.col_distribution_groups": "分发分组",
+    "nameservers.group_not_used": "此分组尚未在任何域名服务器中使用",
+    "nameservers.group_not_used_desc":
+      "在您的域名服务器中将此分组分配为分发分组，以在此处查看它们。",
+    "nameservers.learn_more_dns": "了解更多关于 DNS",
 
-    // DNS
-    "dns.nameservers_description":
-      "添加域名服务器以进行 NetBird 网络中的域名解析。",
-    "dns.dns_zones": "DNS 区域",
-    "dns.zones_description": "管理 DNS 区域以控制网络的域名解析。",
+    // DNS Zones
+    "dns_zones.search_placeholder": "按域名、IP、内容或分组搜索...",
+    "dns_zones.add_zone": "添加区域",
+    "dns_zones.create_new_zone": "创建新区域",
+    "dns_zones.no_zones": "您还没有区域。通过添加区域来控制网络的域名解析。",
+    "dns_zones.col_zone": "区域",
+    "dns_zones.col_records": "记录",
+    "dns_zones.col_search_domain": "搜索域名",
+    "dns_zones.group_not_used": "此分组尚未在任何区域中使用",
+    "dns_zones.group_not_used_desc":
+      "在您的区域中将此分组分配为分发分组，以在此处查看它们。",
+    "dns_zones.learn_more_zones": "了解更多关于 DNS 区域",
 
-    // Users
-    "users.page_description":
-      "管理用户及其权限。同域电子邮件用户在首次登录时自动添加。",
-    "users.service_users_description":
-      "使用服务用户创建 API 令牌，避免自动化访问丢失。",
+    // Settings - Clients
+    "settings.clients_title": "客户端",
+    "settings.automatic_updates": "自动更新",
+    "settings.automatic_updates_help":
+      "通过选择最新版本、自定义版本或禁用更新来选择 NetBird 客户端处理自动更新的方式。",
+    "settings.disabled": "已禁用",
+    "settings.latest_version": "最新版本",
+    "settings.custom_version": "自定义版本",
+    "settings.experimental": "实验性功能",
+    "settings.lazy_connections": "延迟连接",
+    "settings.lazy_connections_desc":
+      "延迟连接是一个实验性功能。功能和行为可能会演变。NetBird 不会维护始终在线的连接，而是根据活动或信令按需激活它们。",
+    "settings.enable_lazy_connections": "启用延迟连接",
+    "settings.enable_lazy_connections_help":
+      "仅在需要时建立节点之间的连接。这需要 NetBird 客户端 v0.45 或更高版本。更改将在重启客户端后生效。",
+    "settings.updating_client_settings": "正在更新客户端设置...",
+    "settings.client_settings": "客户端设置",
+    "settings.client_updated": "客户端设置更新成功。",
+    "settings.updating_lazy_connections": "正在更新延迟连接设置...",
+    "settings.lazy_enabled": "延迟连接已成功启用。",
+    "settings.lazy_disabled": "延迟连接已成功禁用。",
+    "settings.version_placeholder": "例如：0.52.2",
+    "settings.version_error": "请输入有效的版本号，例如 0.2、0.2.0、0.2.0.1",
 
-    // Groups
-    "groups.page_description":
-      "这是您所在组织的分组概览。您可以删除未使用的分组。",
-
-    // Setup Keys
-    "setup_keys.page_description":
-      "设置密钥是预身份验证密钥，允许在您的网络中注册新计算机。",
-
-    // Settings
-    "settings.authentication": "身份验证",
-    "settings.identity_providers": "身份提供商",
-    "settings.permissions": "权限",
-    "settings.clients": "客户端",
-    "settings.danger_zone": "危险区域",
-
-    // Common
-    "common.learn_more": "了解更多",
-    "common.in_documentation": "，请参阅我们的文档。",
-    "common.select": "选择",
-    "common.selected": "已选择",
-    "common.enabled": "已启用",
-    "common.disabled": "已禁用",
-    "common.active": "活跃",
-    "common.inactive": "未活跃",
-    "common.required": "必填",
-    "common.optional": "可选",
-    "common.view": "查看",
-    "common.upload": "上传",
-    "common.paste": "粘贴",
-    "common.finish": "完成",
-    "common.reset": "重置",
-    "common.all": "全部",
-    "common.none": "无",
-
-    // Control Center
-    "control_center.page_title": "控制中心",
-    "control_center.all_networks": "所有网络",
-    "control_center.search_peers": "搜索用户节点...",
-    "control_center.no_peers_title": "暂无节点",
-    "control_center.no_peers_description": "添加一个节点以开始使用",
-    "control_center.policies": "策略",
-    "control_center.groups": "分组",
-    "control_center.peers": "节点",
-    "control_center.networks": "网络",
-    "control_center.users": "用户",
-    "control_center.view_network": "查看网络",
-    "control_center.select_peer": "选择节点",
-    "control_center.select_group": "选择分组",
-    "control_center.select_user": "选择用户",
-    "control_center.go_to_peer": "前往节点视图",
-    "control_center.go_to_group": "前往分组视图",
-    "control_center.go_to_user": "前往用户视图",
+    // Settings - Identity Providers
+    "settings.idp_title": "身份提供商",
+    "settings.idp_description": "配置身份提供商以进行网络中的用户身份验证。",
+    "settings.add_idp": "添加身份提供商",
+    "settings.search_idp": "按名称或类型搜索...",
+    "settings.no_idp": "配置身份提供商以为用户启用 SSO 身份验证。",
+    "settings.idp_name": "名称",
+    "settings.idp_type": "类型",
+    "settings.delete_idp": "删除身份提供商",
+    "settings.delete_idp_confirm":
+      "您确定要删除此身份提供商吗？此操作无法撤消。",
+    "settings.deleting_idp": "正在删除身份提供商...",
+    "settings.idp_deleted": "身份提供商删除成功。",
+    "settings.edit": "编辑",
 
     // Posture Checks
-    "posture_checks.title": "姿态检查",
-    "posture_checks.description": "使用姿态检查来进一步限制网络中的访问。",
-    "posture_checks.learn_more": "了解更多关于",
-    "posture_checks.link_text": "姿态检查",
+    "posture_checks.search_placeholder": "按名称或检查搜索...",
+    "posture_checks.add_check": "添加检查",
+    "posture_checks.create_check": "创建检查",
+    "posture_checks.no_checks":
+      "您还没有姿态检查。通过添加一个来创建节点合规性规则。",
+    "posture_checks.learn_more_checks": "了解更多关于姿态检查",
+    "posture_checks.col_name": "名称",
+    "posture_checks.col_checks": "检查",
+    "posture_checks.col_policy_usage": "策略使用",
+    "posture_checks.col_location": "位置",
 
-    // Events
-    "events.audit_events": "审计事件",
-    "events.title": "审计事件",
-    "events.description": "您可以在这里查看所有审计活动事件。",
-    "events.learn_more": "了解更多关于",
-    "events.link_text": "审计事件",
+    // Access Control
+    "access_control.search_placeholder": "按名称、源、目标搜索...",
+    "access_control.add_policy": "添加策略",
+    "access_control.create_policy": "创建策略",
+    "access_control.no_policies": "您还没有策略。通过创建一个来管理网络访问。",
+    "access_control.learn_more_policies": "了解更多关于访问控制",
+    "access_control.col_name": "名称",
+    "access_control.col_active": "活跃",
+    "access_control.col_sources": "源",
+    "access_control.col_destinations": "目标",
+    "access_control.col_protocol": "协议",
+    "access_control.col_ports": "端口",
+    "access_control.col_posture_checks": "姿态检查",
+    "access_control.col_direction": "方向",
+    "access_control.enabled": "已启用",
+    "access_control.all": "全部",
+    "access_control.group_not_used": "此分组尚未在任何策略中使用",
+    "access_control.group_not_used_desc":
+      "在您的策略中将此分组分配为源或目标，以在此处查看它们。",
 
-    // Groups
-    "groups.create_title": "创建分组",
-    "groups.create_description": "创建一个组来管理和组织网络中的访问",
-    "groups.create_button": "创建分组",
-    "groups.name_label": "名称",
-    "groups.name_help": "为您的组设置一个易于识别的名称",
-    "groups.name_placeholder": "例如：开发者",
-    "groups.learn_more": "了解更多关于",
-    "groups.link_text": "分组",
-    "groups.created_success": "组 '%s' 创建成功",
-    "groups.creating": "正在创建组...",
+    // Groups Detail
+    "groups.detail_users": "用户",
+    "groups.detail_peers": "节点",
+    "groups.detail_resources": "资源",
+    "groups.detail_routes": "路由",
+    "groups.detail_policies": "策略",
+    "groups.detail_access_control": "访问控制",
 
-    // Access Tokens
-    "access_tokens.create_title": "创建访问令牌",
-    "access_tokens.description": "使用此令牌访问 NetBird 的公共 API",
-    "access_tokens.create_button": "创建令牌",
-    "access_tokens.name_label": "名称",
-    "access_tokens.name_help": "为您的令牌设置一个易于识别的名称",
-    "access_tokens.name_placeholder": "例如：基础设施令牌",
-    "access_tokens.expires_label": "过期时间",
-    "access_tokens.expires_help": "应在 1 到 365 天之间。",
-    "access_tokens.days": "天",
-    "access_tokens.learn_more": "了解更多关于",
-    "access_tokens.link_text": "访问令牌",
-    "access_tokens.creating": "正在创建访问令牌",
-    "access_tokens.created": "%s 创建成功",
-    "access_tokens.created_success_title": "访问令牌创建成功！",
-    "access_tokens.created_success_desc":
-      "此令牌将不再显示，请务必复制并存储在安全的位置。",
-    "access_tokens.copied": "访问令牌已复制到剪贴板！",
-    "access_tokens.copy_clipboard": "复制到剪贴板",
-    "access_tokens.create_failed": "设置密钥无法创建...",
-
-    // Search
-    "search.modal_title": "搜索网络和资源",
-    "search.modal_subtitle": "快速查找网络和关联资源。",
-    "search.modal_hint": "开始输入以按名称、描述或地址搜索。",
-    "search.not_found_title": "未找到任何结果",
-    "search.not_found_desc": "未找到任何结果。请尝试其他搜索词。",
-
-    // Users
-    "users.search_placeholder": "按名称、电子邮件或角色搜索...",
-    "users.add_users_title": "添加新用户",
-    "users.add_users_description": "您还没有用户。开始邀请用户加入您的账户。",
-    "users.link_text": "用户",
-
-    // Setup Keys
-    "setup_keys.search_placeholder": "按名称、类型或分组搜索...",
-    "setup_keys.no_keys_title": "此分组尚未在任何设置密钥中使用",
-    "setup_keys.no_keys_description":
-      "创建新的设置密钥时分配此分组，以在此处查看它们。",
-    "setup_keys.create_button": "创建设置密钥",
-    "setup_keys.get_started_title": "创建设置密钥",
-    "setup_keys.get_started_description":
-      "添加设置密钥以在您的网络中注册新计算机。该密钥在初始设置期间将计算机链接到您的账户。",
-    "setup_keys.link_text": "设置密钥",
+    // Activity / Events
+    "activity.search_placeholder": "按操作、电子邮件或 IP 搜索...",
+    "activity.col_action": "操作",
+    "activity.col_actor": "执行者",
+    "activity.col_target": "目标",
+    "activity.col_date": "日期",
+    "activity.no_events": "暂无事件",
+    "activity.loading_events": "正在加载事件...",
+    "activity.failed_load": "加载事件失败",
+    "activity.retry": "重试",
+    "activity.canceled": "已取消",
+    "activity.completed": "已完成",
+    "activity.failed": "失败",
+    "activity.success": "成功",
   },
 };
 

@@ -16,6 +16,7 @@ import React, { useMemo, useState } from "react";
 import { DateRange } from "react-day-picker";
 import { useSWRConfig } from "swr";
 import PeerIcon from "@/assets/icons/PeerIcon";
+import { useLanguage } from "@/contexts/LanguageProvider";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { ActivityEvent } from "@/interfaces/ActivityEvent";
 import { ActivityEntryRow } from "@/modules/activity/ActivityEntryRow";
@@ -31,11 +32,17 @@ type Props = {
   headingTarget?: HTMLHeadingElement | null;
 };
 
-const ActivityFeedColumnsTable: ColumnDef<ActivityEvent>[] = [
+const ActivityFeedColumnsTable = (
+  t: (key: string, fallback?: string) => string,
+): ColumnDef<ActivityEvent>[] => [
   {
     accessorKey: "activity_code",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Code</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("activity.col_code", "Code")}
+        </DataTableHeader>
+      );
     },
     sortingFn: "text",
     filterFn: "arrIncludesSomeExact",
@@ -68,7 +75,7 @@ const ActivityFeedColumnsTable: ColumnDef<ActivityEvent>[] = [
   },
   {
     id: "initiator_email",
-    accessorFn: (row) => row.initiator_email || "NetBird",
+    accessorFn: (row) => row.initiator_email || t("common.netbird", "NetBird"),
     filterFn: "exactMatch",
   },
 ];
@@ -81,6 +88,7 @@ export default function ActivityTable({
   isLoading,
   headingTarget,
 }: Props) {
+  const { t } = useLanguage();
   const { mutate } = useSWRConfig();
   const path = usePathname();
 
@@ -112,25 +120,28 @@ export default function ActivityTable({
       return {
         name: event.initiator_name,
         id: event.initiator_id,
-        email: event.initiator_email || "NetBird",
+        email: event.initiator_email || t("common.netbird", "NetBird"),
         external: !!event?.meta?.external,
       } as UserSelectOption;
     });
-  }, [events]);
+  }, [events, t]);
 
   return (
     <DataTable
       headingTarget={headingTarget}
       paginationClassName={"max-w-[800px]"}
       as={"div"}
-      text={"Audit Events"}
+      text={t("events.audit_events", "Audit Events")}
       sorting={sorting}
       setSorting={setSorting}
       wrapperClassName={"gap-0 flex flex-col"}
       tableClassName={"px-8 pt-4"}
-      columns={ActivityFeedColumnsTable}
+      columns={ActivityFeedColumnsTable(t)}
       data={events}
-      searchPlaceholder={"Search by audit name, user, peer, meta..."}
+      searchPlaceholder={t(
+        "activity.search_placeholder",
+        "Search by audit name, user, peer, meta...",
+      )}
       isLoading={isLoading}
       columnVisibility={{
         timestamp: false,
@@ -147,20 +158,21 @@ export default function ActivityTable({
               size={"large"}
             />
           }
-          title={"Get Started with NetBird"}
-          description={
-            "It looks like you don't have any connected machines.\n" +
-            "Get started by adding one to your network."
-          }
+          title={t("peers.get_started_title", "Get Started with NetBird")}
+          description={t(
+            "peers.get_started_description",
+            "It looks like you don't have any connected machines.\nGet started by adding one to your network.",
+          )}
           button={<AddPeerButton />}
           learnMore={
             <>
-              Learn more in our{" "}
+              {t("common.learn_more", "Learn more")}{" "}
+              {t("common.in_documentation", "in our documentation.")}
               <InlineLink
                 href={"https://docs.netbird.io/how-to/getting-started"}
                 target={"_blank"}
               >
-                Getting Started Guide
+                {t("peers.getting_started_guide", "Getting Started Guide")}
                 <ExternalLinkIcon size={12} />
               </InlineLink>
             </>

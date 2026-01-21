@@ -49,6 +49,7 @@ import React, { useEffect, useMemo, useReducer, useRef, useState } from "react";
 import NetworkRoutesIcon from "@/assets/icons/NetworkRoutesIcon";
 import { useDialog } from "@/contexts/DialogProvider";
 import { useRoutes } from "@/contexts/RoutesProvider";
+import { useLanguage } from "@/contexts/LanguageProvider";
 import { Group } from "@/interfaces/Group";
 import { OperatingSystem } from "@/interfaces/OperatingSystem";
 import { Peer } from "@/interfaces/Peer";
@@ -71,6 +72,7 @@ export default function RouteModal({
   setOpen,
   distributionGroups,
 }: Props) {
+  const { t } = useLanguage();
   const { confirm } = useDialog();
   const router = useRouter();
   const [routePolicyModal, setRoutePolicyModal] = useState(false);
@@ -80,11 +82,16 @@ export default function RouteModal({
     if (!r?.access_control_groups) return;
 
     const choice = await confirm({
-      title: `Do you want to create a new access control policy for the route '${r.network_id}'?`,
-      description:
+      title: t(
+        "route.create_policy_title",
+        `Do you want to create a new access control policy for the route '${r.network_id}'?`,
+      ),
+      description: t(
+        "route.create_policy_desc",
         "You have one or more access control groups added to this route. These groups allow you to limit access to this route by using them in access policies.",
-      confirmText: "Create Policy",
-      cancelText: "Later",
+      ),
+      confirmText: t("route.create_policy", "Create Policy"),
+      cancelText: t("route.later", "Later"),
       type: "default",
     });
     if (!choice) return;
@@ -157,6 +164,7 @@ export function RouteModalContent({
   isFirstExitNode = false,
   distributionGroups,
 }: ModalProps) {
+  const { t } = useLanguage();
   const { createRoute } = useRoutes();
   const [tab, setTab] = useState(
     exitNode && peer ? "access-control" : "network",
@@ -334,7 +342,11 @@ export function RouteModalContent({
   const cidrError = useMemo(() => {
     if (networkRange == "") return "";
     const validCIDR = cidr.isValidAddress(networkRange);
-    if (!validCIDR) return "Please enter a valid CIDR, e.g., 192.168.1.0/24";
+    if (!validCIDR)
+      return t(
+        "route.cidr_error",
+        "Please enter a valid CIDR, e.g., 192.168.1.0/24",
+      );
   }, [networkRange]);
 
   const isGroupsEntered = useMemo(() => {
@@ -361,13 +373,16 @@ export function RouteModalContent({
 
   const networkIdentifierError = useMemo(() => {
     return (networkIdentifier?.length || 0) > 40
-      ? "Network Identifier must be less than 40 characters"
+      ? t(
+          "route.identifier_error",
+          "Network Identifier must be less than 40 characters",
+        )
       : "";
   }, [networkIdentifier]);
 
   const metricError = useMemo(() => {
     return parseInt(metric) < 1 || parseInt(metric) > 9999
-      ? "Metric must be between 1 and 9999"
+      ? t("route.metric_error", "Metric must be between 1 and 9999")
       : "";
   }, [metric]);
 
@@ -397,17 +412,25 @@ export function RouteModalContent({
         title={
           exitNode
             ? isFirstExitNode
-              ? "Set Up Exit Node"
-              : "Add Exit Node"
-            : "Create New  Route"
+              ? t("route.set_up_exit_node", "Set Up Exit Node")
+              : t("route.add_exit_node", "Add Exit Node")
+            : t("route.create_new", "Create New Route")
         }
-        truncate={!!peer}
         description={
           exitNode
             ? peer
-              ? `Route all traffic through the peer '${peer.name}'`
-              : "Route all internet traffic through a peer"
-            : "Access LANs and VPC by adding a network route."
+              ? t(
+                  "route.route_all_traffic_peer",
+                  `Route all internet traffic through the peer '${peer.name}'`,
+                )
+              : t(
+                  "route.route_all_traffic_peers",
+                  "Route all internet traffic through the peer(s) for the following groups",
+                )
+            : t(
+                "route.access_lans_vpc",
+                "Access LANs and VPC by adding a network route.",
+              )
         }
         color={exitNode ? "yellow" : "netbird"}
       />
@@ -425,7 +448,7 @@ export function RouteModalContent({
                   "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
                 }
               />
-              Route
+              {t("route.network_route", "Route")}
             </TabsTrigger>
           )}
 
@@ -436,7 +459,7 @@ export function RouteModalContent({
                 "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
               }
             />
-            Groups
+            {t("nav.groups", "Groups")}
           </TabsTrigger>
           <TabsTrigger
             value={"general"}
@@ -449,7 +472,7 @@ export function RouteModalContent({
                 "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
               }
             />
-            Name & Description
+            {t("route.name_and_description", "Name & Description")}
           </TabsTrigger>
           <TabsTrigger
             value={"settings"}
@@ -461,16 +484,18 @@ export function RouteModalContent({
                 "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
               }
             />
-            Additional Settings
+            {t("route.additional_settings", "Additional Settings")}
           </TabsTrigger>
         </TabsList>
         <TabsContent value={"network"} className={"pb-8"}>
           <div className={"px-8 flex-col flex gap-4"}>
             <div className={cn(exitNode && "hidden")}>
-              <Label>Route Type</Label>
+              <Label>{t("route.type", "Route Type")}</Label>
               <HelpText>
-                Select your route type to add either a network range or a list
-                of domains.
+                {t(
+                  "route.type_help",
+                  "Select your route type to add either a network range or a list of domains.",
+                )}
               </HelpText>
               <div className={"flex justify-between items-center w-full"}>
                 <ButtonGroup className={"w-full"}>
@@ -499,8 +524,13 @@ export function RouteModalContent({
                   routeType !== "ip-range" && "hidden",
                 )}
               >
-                <Label>Network Range</Label>
-                <HelpText>Add a private IPv4 address range</HelpText>
+                <Label>{t("route.network_range", "Network Range")}</Label>
+                <HelpText>
+                  {t(
+                    "route.network_range_help",
+                    "Add a private IPv4 address range",
+                  )}
+                </HelpText>
                 <Input
                   ref={networkRangeRef}
                   customPrefix={<NetworkIcon size={16} />}
@@ -516,10 +546,12 @@ export function RouteModalContent({
               <div
                 className={cn("mt-5 mb-3", routeType !== "domains" && "hidden")}
               >
-                <Label>Domains</Label>
+                <Label>{t("route.domains", "Domains")}</Label>
                 <HelpText>
-                  Add domains that dynamically resolve to one or more IPv4
-                  addresses. <br /> A maximum of 32 domains can be added.
+                  {t(
+                    "route.domains_help",
+                    "Add domains that dynamically resolve to one or more IPv4 addresses. A maximum of 32 domains can be added.",
+                  )}
                 </HelpText>
                 <div>
                   {domainRoutes.length > 0 && (
@@ -560,7 +592,7 @@ export function RouteModalContent({
                     onClick={() => setDomainRoutes({ type: "ADD" })}
                   >
                     <PlusIcon size={14} />
-                    Add Domain
+                    {t("route.add_domain", "Add Domain")}
                   </Button>
                 </div>
                 <div className={cn("mt-6 w-full")}>
@@ -582,7 +614,7 @@ export function RouteModalContent({
                         <>
                           <div className={"flex gap-2"}>
                             <GlobeLockIcon size={14} />
-                            Keep Routes
+                            {t("route.keep_routes", "Keep Routes")}
                             <CircleHelp
                               size={12}
                               className={"top-[1px] relative text-nb-gray-300"}
@@ -592,8 +624,10 @@ export function RouteModalContent({
                       }
                       helpText={
                         <div>
-                          Retain previously resolved routes after IP address
-                          updates to maintain stable connections.
+                          {t(
+                            "route.keep_routes_help",
+                            "Retain previously resolved routes after IP address updates to maintain stable connections.",
+                          )}
                         </div>
                       }
                     />
@@ -616,19 +650,25 @@ export function RouteModalContent({
                 <SegmentedTabs.List>
                   <SegmentedTabs.Trigger value={"routing-peer"}>
                     <MonitorSmartphoneIcon size={16} />
-                    Routing Peer
+                    {t("route.routing_peer", "Routing Peer")}
                   </SegmentedTabs.Trigger>
 
                   <SegmentedTabs.Trigger value={"peer-group"} disabled={!!peer}>
                     <FolderGit2 size={16} />
-                    Peer Group
+                    {t("route.peer_group", "Peer Group")}
                   </SegmentedTabs.Trigger>
                 </SegmentedTabs.List>
                 <SegmentedTabs.Content value={"routing-peer"}>
                   <div>
                     <HelpText>
-                      Assign a single peer as a routing peer for the
-                      {exitNode ? " exit node." : " network route."}
+                      {t(
+                        "route.routing_peer_help",
+                        `Assign a single peer as a routing peer for the ${
+                          exitNode
+                            ? t("route.exit_node", " exit node.")
+                            : t("route.network_route", " network route.")
+                        }`,
+                      )}
                     </HelpText>
                     <PeerSelector
                       onChange={setRoutingPeer}
@@ -640,8 +680,14 @@ export function RouteModalContent({
                 <SegmentedTabs.Content value={"peer-group"}>
                   <div>
                     <HelpText>
-                      Assign a peer group with machines to be used as
-                      {exitNode ? " exit nodes." : " routing peers."}
+                      {t(
+                        "route.peer_group_help",
+                        `Assign a peer group with machines to be used as ${
+                          exitNode
+                            ? t("route.exit_nodes", " exit nodes.")
+                            : t("route.routing_peers", " routing peers.")
+                        }`,
+                      )}
                     </HelpText>
                     <PeerGroupSelector
                       max={1}
@@ -657,21 +703,39 @@ export function RouteModalContent({
         <TabsContent value={"access-control"} className={"pb-8"}>
           <div className={"px-8 flex-col flex gap-6"}>
             <div>
-              <Label>Distribution Groups</Label>
+              <Label>
+                {t("route.distribution_groups", "Distribution Groups")}
+              </Label>
               <HelpText>
                 {exitNode
                   ? peer
-                    ? `Route all internet traffic through this peer for the following groups`
-                    : `Route all internet traffic through the peer(s) for the following groups`
-                  : "Advertise this route to peers that belong to the following groups"}
+                    ? t(
+                        "route.route_all_traffic_peer",
+                        "Route all internet traffic through this peer for the following groups",
+                      )
+                    : t(
+                        "route.route_all_traffic_peers",
+                        "Route all internet traffic through the peer(s) for the following groups",
+                      )
+                  : t(
+                      "route.advertise_route",
+                      "Advertise this route to peers that belong to the following groups",
+                    )}
               </HelpText>
               <PeerGroupSelector onChange={setGroups} values={groups} />
             </div>
             <div>
-              <Label>Access Control Groups (optional)</Label>
+              <Label>
+                {t(
+                  "route.access_control_groups",
+                  "Access Control Groups (optional)",
+                )}
+              </Label>
               <HelpText>
-                These groups allow you to limit access to this route. Simply use
-                these groups as a destination when creating access policies.
+                {t(
+                  "route.access_control_groups_help",
+                  "These groups allow you to limit access to this route. Simply use these groups as a destination when creating access policies.",
+                )}
               </HelpText>
               <PeerGroupSelector
                 dataCy={"access-control-groups-selector"}
@@ -684,9 +748,14 @@ export function RouteModalContent({
         <TabsContent value={"general"} className={"px-8 pb-6"}>
           <div className={"flex flex-col gap-6"}>
             <div>
-              <Label>Network Identifier</Label>
+              <Label>
+                {t("route.network_identifier", "Network Identifier")}
+              </Label>
               <HelpText>
-                Add a unique network identifier that is assigned to each device.
+                {t(
+                  "route.network_identifier_help",
+                  "Add a unique network identifier that is assigned to each device.",
+                )}
               </HelpText>
               <Input
                 error={networkIdentifierError}
@@ -700,9 +769,14 @@ export function RouteModalContent({
               />
             </div>
             <div>
-              <Label>Description (optional)</Label>
+              <Label>
+                {t("route.description_optional", "Description (optional)")}
+              </Label>
               <HelpText>
-                Write a short description to add more context to this route.
+                {t(
+                  "route.description_help",
+                  "Write a short description to add more context to this route.",
+                )}
               </HelpText>
               <Textarea
                 data-cy={"description"}
@@ -724,10 +798,13 @@ export function RouteModalContent({
               label={
                 <>
                   <Power size={15} />
-                  Enable Route
+                  {t("route.enable_route", "Enable Route")}
                 </>
               }
-              helpText={"Use this switch to enable or disable the route."}
+              helpText={t(
+                "route.enable_route_help",
+                "Use this switch to enable or disable the route.",
+              )}
             />
 
             {exitNode && (
@@ -737,12 +814,13 @@ export function RouteModalContent({
                 label={
                   <>
                     <IconDirectionSign size={15} />
-                    Auto Apply Route
+                    {t("route.auto_apply_route", "Auto Apply Route")}
                   </>
                 }
-                helpText={
-                  "Automatically apply this exit node to your distribution groups. This requires NetBird client v0.55.0 or higher."
-                }
+                helpText={t(
+                  "route.auto_apply_route_help",
+                  "Automatically apply this exit node to your distribution groups. This requires NetBird client v0.55.0 or higher.",
+                )}
               />
             )}
 
@@ -757,9 +835,12 @@ export function RouteModalContent({
 
             <div className={cn("flex justify-between")}>
               <div>
-                <Label>Metric</Label>
+                <Label>{t("route.metric", "Metric")}</Label>
                 <HelpText className={"max-w-[200px]"}>
-                  A lower metric indicates higher priority routes.
+                  {t(
+                    "route.metric_help",
+                    "A lower metric indicates higher priority routes.",
+                  )}
                 </HelpText>
               </div>
 
@@ -805,13 +886,15 @@ export function RouteModalContent({
         <div className={"flex gap-3 w-full justify-end"}>
           {(tab == "network" || (tab == "access-control" && exitNode)) && (
             <ModalClose asChild={true}>
-              <Button variant={"secondary"}>Cancel</Button>
+              <Button variant={"secondary"}>
+                {t("common.cancel", "Cancel")}
+              </Button>
             </ModalClose>
           )}
 
           {tab == "access-control" && !exitNode && (
             <Button variant={"secondary"} onClick={() => setTab("network")}>
-              Back
+              {t("common.back", "Back")}
             </Button>
           )}
 
@@ -820,13 +903,13 @@ export function RouteModalContent({
               variant={"secondary"}
               onClick={() => setTab("access-control")}
             >
-              Back
+              {t("common.back", "Back")}
             </Button>
           )}
 
           {tab == "settings" && (
             <Button variant={"secondary"} onClick={() => setTab("general")}>
-              Back
+              {t("common.back", "Back")}
             </Button>
           )}
 
@@ -836,7 +919,7 @@ export function RouteModalContent({
               onClick={() => setTab("access-control")}
               disabled={!isNetworkEntered}
             >
-              Continue
+              {t("route.continue", "Continue")}
             </Button>
           )}
           {tab == "access-control" && (
@@ -845,7 +928,7 @@ export function RouteModalContent({
               onClick={() => setTab("general")}
               disabled={!isGroupsEntered}
             >
-              Continue
+              {t("route.continue", "Continue")}
             </Button>
           )}
           {tab == "general" && (
@@ -854,7 +937,7 @@ export function RouteModalContent({
               onClick={() => setTab("settings")}
               disabled={!isNameEntered || !isNetworkEntered}
             >
-              Continue
+              {t("route.continue", "Continue")}
             </Button>
           )}
           {tab == "settings" && (
@@ -865,7 +948,9 @@ export function RouteModalContent({
               onClick={createRouteHandler}
             >
               <PlusCircle size={16} />
-              {exitNode ? "Add Exit Node" : "Add Route"}
+              {exitNode
+                ? t("route.add_exit_node", "Add Exit Node")
+                : t("route.add_route", "Add Route")}
             </Button>
           )}
         </div>

@@ -4,6 +4,7 @@ import AddPeerButton from "@components/ui/AddPeerButton";
 import GetStartedTest from "@components/ui/GetStartedTest";
 import { ExternalLinkIcon } from "lucide-react";
 import * as React from "react";
+import { useLanguage } from "@/contexts/LanguageProvider";
 import PeerIcon from "@/assets/icons/PeerIcon";
 
 type Props = {
@@ -11,6 +12,7 @@ type Props = {
 };
 
 export const NoPeersGettingStarted = ({ showBackground = true }) => {
+  const { t } = useLanguage();
   return (
     <GetStartedTest
       showBackground={showBackground}
@@ -21,20 +23,21 @@ export const NoPeersGettingStarted = ({ showBackground = true }) => {
           size={"large"}
         />
       }
-      title={"Get Started with NetBird"}
-      description={
+      title={t("peers.get_started_title", "Get Started with NetBird")}
+      description={t(
+        "peers.get_started_description",
         "It looks like you don't have any connected machines.\n" +
-        "Get started by adding one to your network."
-      }
+          "Get started by adding one to your network.",
+      )}
       button={<AddPeerButton />}
       learnMore={
         <>
-          Learn more in our{" "}
+          {t("common.learn_more", "Learn more in our ")}
           <InlineLink
             href={"https://docs.netbird.io/how-to/getting-started"}
             target={"_blank"}
           >
-            Getting Started Guide
+            {t("peers.getting_started_guide", "Getting Started Guide")}
             <ExternalLinkIcon size={12} />
           </InlineLink>
         </>
